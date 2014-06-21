@@ -17,8 +17,8 @@ int main()
 
     // You generally want to do this after you check to see if the display was created. If the display wasn't created then there's
     // no point in calling this function
-    //al_set_new_display_flags(ALLEGRO_NOFRAME);
-    ALLEGRO_DISPLAY *display = al_create_display(800, 600);
+    al_set_new_display_flags(ALLEGRO_FULLSCREEN);
+    ALLEGRO_DISPLAY *display = al_create_display(1366, 768);
     al_set_window_position(display, 200, 100);
     al_set_window_title(display, "Gaming Project");
 
