@@ -20,7 +20,7 @@ int main()
     //al_set_new_display_flags(ALLEGRO_NOFRAME);
     ALLEGRO_DISPLAY *display = al_create_display(800, 600);
     al_set_window_position(display, 200, 100);
-    al_set_window_title(display, "CodingMadeEasy");
+    al_set_window_title(display, "Gaming Project");
 
     if(!display)
     {
