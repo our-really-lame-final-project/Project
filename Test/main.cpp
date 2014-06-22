@@ -102,6 +102,11 @@ int main()
                 dir = DOWN;
                 al_play_sample(soundEffect, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
                 //Plays the sound.(Sound name, gain volume, (left, right, balance speaker), speed, and repeat.)
+            }
+            else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
+            {
+                y -= moveSpeed;
+                dir = UP;
             }*/
             if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
             {
@@ -141,10 +146,10 @@ int main()
             x += velx; //Sets direction speed for gravity.
             y += vely;//Sets direction speed for gravity.
 
-            jump = (y + 32 >= 560);//Sets jump border for player.
+            jump = (y + 32 >= 600);//Sets jump border for player.
 
             if(jump)
-                y = 560 - 32;//Places players height into correct position.
+                y = 600 - 32;//Places players height into correct position.
 
             draw = true;//If any keys are used, them draw will return true and draw the image.
         }
