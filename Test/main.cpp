@@ -2,10 +2,10 @@
 #include<allegro5/allegro_native_dialog.h>//Dialog boxes.
 #include<allegro5/allegro_ttf.h>//read font files.
 #include<allegro5/allegro_font.h>//font.
-#include<allegro5\allegro_image.h>//images.
-#include<allegro5\allegro_primitives.h>//to draw images.
-#include<allegro5\allegro_audio.h>//Play audio.
-#include<allegro5\allegro_acodec.h>//Play different file types for audio.
+#include<allegro5/allegro_image.h>//images.
+#include<allegro5/allegro_primitives.h>//to draw images.
+#include<allegro5/allegro_audio.h>//Play audio.
+#include<allegro5/allegro_acodec.h>//Play different file types for audio.
 
 #define ScreenWidth 800//sets screen width variable.
 #define ScreenHeight 600//sets screen height variable.
@@ -38,6 +38,11 @@ int main()
     float x = 10, y = 10, moveSpeed = 5;//sets player position and speed.
     int dir = DOWN;//Sets players direction.
     int sourceX = 32, sourceY = 0;//Standing position.
+    float velx, vely; //Changes jump speed with gravity.
+    velx = vely = 0;//Set default value .
+    bool jump = false;//Sets jump loop to false.
+    float jumpSpeed = 15;//Sets players jump speed.
+    const float gravity = 1;//Sets realistic gravity settings.
 
     al_init_font_addon();//initialize font addon.
     al_init_ttf_addon();//initialize ttf files.
@@ -49,7 +54,7 @@ int main()
     al_reserve_samples(2);//Number of samples playing.
 
     ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTER, "DOGE STORY");//Draws text with given font.
+    al_draw_text(font, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "DOGE STORY");//Draws text with given font.
 
     ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
     ALLEGRO_SAMPLE *song = al_load_sample("GetLucky8Bit.ogg"); //Load the song file.
@@ -91,31 +96,32 @@ int main()
         if(events.type == ALLEGRO_EVENT_TIMER)
         {//Sets instructions for keys and timer function.
             active = true;
-            if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
+           /* if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
             {
                 y += moveSpeed;
                 dir = DOWN;
                 al_play_sample(soundEffect, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
                 //Plays the sound.(Sound name, gain volume, (left, right, balance speaker), speed, and repeat.)
-            }
-            else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
+            }*/
+            if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
             {
-                y -= moveSpeed;
-                dir = UP;
-            }
-            else if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
-            {
-                x += moveSpeed;
+                velx = moveSpeed;
                 dir = RIGHT;
             }
             else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
             {
-                x -= moveSpeed;
+                velx = -moveSpeed;
                 dir = LEFT;
             }
             else
             {
+                velx = 0;
                 active = false;//Sets animation off as long as user does not move.
+            }
+            if(al_key_down(&keyState, ALLEGRO_KEY_UP) && jump)
+            {
+                vely = -jumpSpeed;
+                jump = false;
             }
             if(active)
                 sourceX += al_get_bitmap_width(player) / 3;
@@ -125,7 +131,20 @@ int main()
             if(sourceX >= al_get_bitmap_width(player))
                 sourceX = 0;
 
-            sourceY = dir;
+            sourceY = dir;//Direction of player.
+
+            if(!jump)
+                vely += gravity; //Sets gravity active for jump..
+            else
+                vely = 0;//Sets gravity to zero.
+
+            x += velx; //Sets direction speed for gravity.
+            y += vely;//Sets direction speed for gravity.
+
+            jump = (y + 32 >= 560);//Sets jump border for player.
+
+            if(jump)
+                y = 560 - 32;//Places players height into correct position.
 
             draw = true;//If any keys are used, them draw will return true and draw the image.
         }
@@ -136,7 +155,7 @@ int main()
 
         if(draw)//Draws the image when keys are inputted.
         {
-            //draw = false;
+            draw = false;
             al_draw_bitmap_region(player, sourceX, sourceY * al_get_bitmap_height(player) / 4, 32, 32, x, y, NULL);//Draws the bitmap animation on screen.
             //al_draw_bitmap(player, x, y + 440, NULL);//Draws the bitmap on screen.
             //al_draw_rectangle(x, y, x + 10, y + 10, al_map_rgb(44, 117, 255), 1);//Draws rectangle.
@@ -146,7 +165,7 @@ int main()
     }
 
     ALLEGRO_FONT *font1 = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font1, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTER, "THE END OF DOGE");//Draws text with given font.
+    al_draw_text(font1, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "THE END OF DOGE");//Draws text with given font.
     al_flip_display();//shows the font.
     al_rest(1.0);//sets screen timer.
 
