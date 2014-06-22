@@ -3,9 +3,15 @@
 #include<allegro5/allegro_ttf.h>//read font files.
 #include<allegro5/allegro_font.h>//font.
 #include<allegro5/allegro_image.h>//images.
+<<<<<<< HEAD
 #include<allegro5/allegro_primitives.h>//to draw images.
 #include<allegro5/allegro_audio.h>//Play audio.
 #include<allegro5/allegro_acodec.h>//Play different file types for audio.
+=======
+#include<allegro5\allegro_primitives.h>//to draw images.
+#include<allegro5\allegro_audio.h>//Play audio.
+#include<allegro5\allegro_acodec.h>//Play different file types for audio.
+>>>>>>> origin/master
 
 #define ScreenWidth 800//sets screen width variable.
 #define ScreenHeight 600//sets screen height variable.
