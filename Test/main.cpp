@@ -2,10 +2,10 @@
 #include<allegro5/allegro_native_dialog.h>//Dialog boxes.
 #include<allegro5/allegro_ttf.h>//read font files.
 #include<allegro5/allegro_font.h>//font.
-#include<allegro5\allegro_image.h>//images.
-#include<allegro5\allegro_primitives.h>//to draw images.
-#include<allegro5\allegro_audio.h>//Play audio.
-#include<allegro5\allegro_acodec.h>//Play different file types for audio.
+#include<allegro5/allegro_image.h>//images.
+#include<allegro5/allegro_primitives.h>//to draw images.
+#include<allegro5/allegro_audio.h>//Play audio.
+#include<allegro5/allegro_acodec.h>//Play different file types for audio.
 
 #define ScreenWidth 800//sets screen width variable.
 #define ScreenHeight 600//sets screen height variable.
@@ -49,7 +49,7 @@ int main()
     al_reserve_samples(2);//Number of samples playing.
 
     ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTER, "DOGE STORY");//Draws text with given font.
+    al_draw_text(font, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "DOGE STORY");//Draws text with given font.
 
     ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
     ALLEGRO_SAMPLE *song = al_load_sample("GetLucky8Bit.ogg"); //Load the song file.
@@ -146,7 +146,7 @@ int main()
     }
 
     ALLEGRO_FONT *font1 = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font1, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTER, "THE END OF DOGE");//Draws text with given font.
+    al_draw_text(font1, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "THE END OF DOGE");//Draws text with given font.
     al_flip_display();//shows the font.
     al_rest(1.0);//sets screen timer.
 
