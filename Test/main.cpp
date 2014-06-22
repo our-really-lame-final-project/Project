@@ -17,15 +17,18 @@ int main()
     const float FPS = 60.0;//Sets fps to 60 frames per second
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
 
+    ALLEGRO_DISPLAY *display = NULL;
+    ALLEGRO_DISPLAY_MODE disp_data;
+
     if(!al_init())//if allegro 5 does not initialize show error message.
     {
         al_show_native_message_box(NULL, NULL, "Error", "Could not initialize Allegro 5", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
+    al_get_display_mode(0, &disp_data);
+    al_set_new_display_flags(ALLEGRO_FULLSCREEN);//display format.
+    display = al_create_display(disp_data.width, disp_data.height);
 
-    al_set_new_display_flags(ALLEGRO_WINDOWED);//display format.
-    ALLEGRO_DISPLAY *display = al_create_display(ScreenWidth, ScreenHeight);//sets display resolution.
-    al_set_window_position(display, 283, 50);//sets display windows position.
     al_set_window_title(display, "Gaming Project");//sets a window title.
 
     if(!display)//if display does not initialize show error message.
