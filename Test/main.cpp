@@ -15,6 +15,7 @@
 int main()
 {
     const float FPS = 60.0;//Sets fps to 60 frames per second
+    const float frameFPS = 15.0;//Set fps for animation for walking.
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
 
     if(!al_init())//if allegro 5 does not initialize show error message.
@@ -63,19 +64,24 @@ int main()
     al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());//Attach the song to the default mixer.
 
     ALLEGRO_BITMAP *player = al_load_bitmap("Test.png");//Creates bitmap.
+
     ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
 
-    ALLEGRO_TIMER *timer = al_create_timer(1.0 / 30);//Set timer to fps.
+    ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);//Set timer to 60 fps.
+    ALLEGRO_TIMER *frameTimer = al_create_timer(1.0 / frameFPS);//Set timer to 15 fps.
+
     ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();//Function to create an event.
-    al_register_event_source(event_queue, al_get_keyboard_event_source());//Registers keyboard event.
     al_register_event_source(event_queue, al_get_timer_event_source(timer));//Registers timer event.
+    al_register_event_source(event_queue, al_get_timer_event_source(frameTimer));//Register timer event.
     al_register_event_source(event_queue, al_get_display_event_source(display));//Registers display event.
+    al_register_event_source(event_queue, al_get_keyboard_event_source());//Registers keyboard event.
 
     al_play_sample_instance(songInstance);//Starts the song.
     al_flip_display();//shows the font.
     al_rest(4.0);//sets screen timer.
 
     al_start_timer(timer);//Starts the timer.
+    al_start_timer(frameTimer);
     //Do not enter any code besides the while loop after the timer in order to prevent any malfunctions with the program.
 
     while(!done)//loop until user is done.
@@ -93,50 +99,61 @@ int main()
             }
         }
 
-        if(events.type == ALLEGRO_EVENT_TIMER)
+        else if(events.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        {
+            done = true;//Closes the program when user clicks on the x button.
+        }
+
+        else if(events.type == ALLEGRO_EVENT_TIMER)
         {//Sets instructions for keys and timer function.
-            active = true;
-           /* if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
+            if(events.timer.source == timer)
             {
-                y += moveSpeed;
-                dir = DOWN;
-                al_play_sample(soundEffect, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
-                //Plays the sound.(Sound name, gain volume, (left, right, balance speaker), speed, and repeat.)
+                active = true;
+               /* if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
+                {
+                    y += moveSpeed;
+                    dir = DOWN;
+                    al_play_sample(soundEffect, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+                    //Plays the sound.(Sound name, gain volume, (left, right, balance speaker), speed, and repeat.)
+                }
+                else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
+                {
+                    y -= moveSpeed;
+                    dir = UP;
+                }*/
+                if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
+                {
+                    velx = moveSpeed;
+                    dir = RIGHT;
+                }
+                else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
+                {
+                    velx = -moveSpeed;
+                    dir = LEFT;
+                }
+                else
+                {
+                    velx = 0;
+                    active = false;//Sets animation off as long as user does not move.
+                }
+                if(al_key_down(&keyState, ALLEGRO_KEY_UP) && jump)
+                {
+                    vely = -jumpSpeed;
+                    jump = false;
+                }
             }
-            else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
+            else if (events.timer.source == frameTimer)
             {
-                y -= moveSpeed;
-                dir = UP;
-            }*/
-            if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
-            {
-                velx = moveSpeed;
-                dir = RIGHT;
-            }
-            else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
-            {
-                velx = -moveSpeed;
-                dir = LEFT;
-            }
-            else
-            {
-                velx = 0;
-                active = false;//Sets animation off as long as user does not move.
-            }
-            if(al_key_down(&keyState, ALLEGRO_KEY_UP) && jump)
-            {
-                vely = -jumpSpeed;
-                jump = false;
-            }
-            if(active)
-                sourceX += al_get_bitmap_width(player) / 3;
-            else
-                sourceX = 32;
+                if(active)
+                    sourceX += al_get_bitmap_width(player) / 3;
+                else
+                    sourceX = 32;
 
-            if(sourceX >= al_get_bitmap_width(player))
-                sourceX = 0;
+                if(sourceX >= al_get_bitmap_width(player))
+                    sourceX = 0;
 
-            sourceY = dir;//Direction of player.
+                sourceY = dir;//Direction of player.
+            }
 
             if(!jump)
                 vely += gravity; //Sets gravity active for jump..
@@ -152,10 +169,6 @@ int main()
                 y = 600 - 32;//Places players height into correct position.
 
             draw = true;//If any keys are used, them draw will return true and draw the image.
-        }
-        else if(events.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-        {
-            done = true;//Closes the program when user clicks on the x button.
         }
 
         if(draw)//Draws the image when keys are inputted.
