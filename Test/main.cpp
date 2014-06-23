@@ -100,7 +100,7 @@ int main()
     al_reserve_samples(2);//Number of samples playing.
 
     ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "DOGE STORY");//Draws text with given font.
+    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "JAMAL QUEST");//Draws text with given font.
 
     ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
     ALLEGRO_SAMPLE *song = al_load_sample("GetLucky8Bit.ogg"); //Load the song file.
@@ -125,7 +125,7 @@ int main()
 
     al_play_sample_instance(songInstance);//Starts the song.
     al_flip_display();//shows the font.
-    al_rest(1.0);//sets screen timer to 4.0.
+    al_rest(4.0);//sets screen timer to 4.0.
 
     al_start_timer(timer);//Starts the timer.
     al_start_timer(frameTimer);
@@ -269,7 +269,7 @@ int main()
     }
 
     ALLEGRO_FONT *font1 = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font1, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "THE END OF DOGE");//Draws text with given font.
+    al_draw_text(font1, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "GAME OVER");//Draws text with given font.
     al_flip_display();//shows the font.
     al_rest(1.0);//sets screen timer.
 
