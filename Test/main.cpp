@@ -22,27 +22,27 @@ void CameraUpdate(float *cameraPosition, float x, float y, int width, int height
     if(cameraPosition[1] < 0)
         cameraPosition[1] = 0;
 }
-bool Collision(float x, float y, float ex, float ey, int pradius, int eradius)
-{//Pythagoream theorem: using hypontenuse to find distance between objects.
-    if(sqrt(pow(x - ex, 2) + pow(y - ey, 2)) < pradius + eradius)
+bool Collision(float x, float y, float ex, float ey, int width, int height)
+{
+    if(x + width < ex || x > ex + width || y + height < ey || y > ey + height)
     {
-        return true;//Collision.
+        return false;
     }
-    return false;//No collision.
+    return true;
 }
 
 int main()
 {
+    ALLEGRO_DISPLAY *display = NULL;
+    ALLEGRO_DISPLAY_MODE disp_data;
+
     const float FPS = 30.0;//Sets fps to 60 frames per second
     const float frameFPS = 15.0;//Set fps for animation for walking.
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
 
-    ALLEGRO_DISPLAY *display = NULL;
-    ALLEGRO_DISPLAY_MODE disp_data;
-
     if(!al_init())//if allegro 5 does not initialize show error message.
     {
-        al_show_native_message_box(NULL, NULL, "Error", "Could not initialize Allegro 5", 
+        al_show_native_message_box(NULL, NULL, "Error", "Could not initialize Allegro 5",
                 NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
@@ -73,7 +73,7 @@ int main()
 
     if(!display)//if display does not initialize show error message.
     {
-        al_show_native_message_box(NULL, NULL, "Error", 
+        al_show_native_message_box(NULL, NULL, "Error",
                 "Could not create Allegro 5 display", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
@@ -84,14 +84,14 @@ int main()
     int sourceX = 32, sourceY = 0;//Standing position.
 
     float cameraPosition[2] = {0, 0};
-    /*---------------------------------------------------------------------------------*/
-    //Gravity code.
-    /*float velx, vely; //Changes jump speed with gravity.
-    velx = vely = 0;//Set default value .
+    //Gravity code--------------------------------------------------------------------
+    float velx, vely; //Changes jump speed with gravity.
+    velx = 0;//Set default value .
+    vely = 0;//Set default value .
     bool jump = false;//Sets jump loop to false.
-    float jumpSpeed = 15;//Sets players jump speed.
-    const float gravity = 1;//Sets realistic gravity settings.*/
-    /*--------------------------------------------------------------------------------*/
+    float jumpSpeed = 20;//Sets players jump speed.
+    const float gravity = 1;//Sets realistic gravity settings.
+    //--------------------------------------------------------------------------------
 
 
     // SOUND SETUP =================================================================== //
@@ -127,7 +127,7 @@ int main()
 
     ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
     //Draws text with given font.
-    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2, 
+    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2,
             disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "JAMAL QUEST");
 
     // BITMAP & IMAGE SETUP ==================================================== //
@@ -136,6 +136,7 @@ int main()
     al_init_image_addon();//Initializes image.
     al_init_primitives_addon();//Initialize primitives to draw.
     ALLEGRO_BITMAP *player = al_load_bitmap("Test.png");//Creates bitmap for player.
+    ALLEGRO_BITMAP *block = al_load_bitmap("block.png");//Creates bitmap for player.
     ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
 
     // KEYBOARD & TIMER SETUP ======================================================== //
@@ -163,7 +164,7 @@ int main()
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
     al_flip_display();//shows the font.
-    al_rest(4.0);//sets screen timer to 4.0.
+    al_rest(1.0);//sets screen timer to 4.0.
 
     al_start_timer(timer);//Starts the timer.
     al_start_timer(frameTimer);
@@ -194,51 +195,13 @@ int main()
             if(events.timer.source == timer)
             {
                 active = true;
-                if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
+                if(al_key_down(&keyState, ALLEGRO_KEY_UP) && jump)
                 {
-                    y += moveSpeed;
-                    dir = DOWN;
-                    al_play_sample(soundEffect, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
-                    //Plays the sound.(Sound name, gain volume, (left, right, balance speaker), speed, and repeat.)
-                }
-                else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
-                {
-                    y -= moveSpeed;
+                    vely = -jumpSpeed;
                     dir = UP;
+                    jump = false;
                 }
-                else if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
-                {
-                    x += moveSpeed;
-                    dir = RIGHT;
-                }
-                else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
-                {
-                    x -= moveSpeed;
-                    dir = LEFT;
-                }
-                else
-                    active = false;
-
-                CameraUpdate(cameraPosition, x, y, 32, 32);
-
-                al_identity_transform(&camera);
-                al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
-                al_use_transform(&camera);
-
-                if(Collision(x, y, 200, 200, 10, 10))
-                {//If collision true, run if statement.
-                    if(dir == 0)
-                        y -= moveSpeed;
-                    else if(dir == 1)
-                        x += moveSpeed;
-                    else if(dir == 2)
-                        x -= moveSpeed;
-                    else if(dir == 3)
-                        y += moveSpeed;
-                }
-                /*------------------------------------------------------------------------------------*/
-                //Gravity code.
-                /*if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
+                if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
                 {
                     velx = moveSpeed;
                     dir = RIGHT;
@@ -251,14 +214,46 @@ int main()
                 else
                 {
                     velx = 0;
-                    active = false;//Sets animation off as long as user does not move.
+                    active = false;
                 }
-                if(al_key_down(&keyState, ALLEGRO_KEY_UP) && jump)
-                {
-                    vely = -jumpSpeed;
-                    jump = false;
-                }*/
-                /*------------------------------------------------------------------------------------*/
+
+                if(!jump)
+                    vely += gravity;
+                else
+                    vely = 0;
+
+                x += velx; //Sets direction speed for gravity.
+                y += vely;//Sets direction speed for gravity.
+
+                jump = (y + 32 >= 232);//Sets jump border for player.
+
+                if(jump)
+                    y = 232-32;//Places players height into correct position.*/
+
+                CameraUpdate(cameraPosition, x, y, 32, 32);
+
+                al_identity_transform(&camera);
+                al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
+                al_use_transform(&camera);
+
+                if(Collision(x, y, 200, 150, 32, 32))
+                {//If collision true, run if statement.
+                    if(dir == 0)
+                    {
+                        y -= moveSpeed;
+                        jump = true;
+                    }
+                    else if(dir == 1)
+                        x += moveSpeed;
+                    else if(dir == 2)
+                        x -= moveSpeed;
+                    else if(dir == 3)
+                    {
+                        y += moveSpeed;
+                        jump = true;
+                    }
+                }
+
             }
 
             else if (events.timer.source == frameTimer)
@@ -273,33 +268,18 @@ int main()
 
                 sourceY = dir;//Direction of player.
             }
-            draw = true;//If any keys are used, them draw will return true and draw the image.
+            //draw = true;//If any keys are used, them draw will return true and draw the image.
         }
             /*------------------------------------------------------------------------------------*/
-            //Gravity code.
-            /*if(!jump)
-                vely += gravity; //Sets gravity active for jump..
-            else
-                vely = 0;//Sets gravity to zero.
 
-            x += velx; //Sets direction speed for gravity.
-            y += vely;//Sets direction speed for gravity.
-
-            jump = (y + 32 >= 600);//Sets jump border for player.
-
-            if(jump)
-                y = 568;//Places players height into correct position.*/
                 /*------------------------------------------------------------------------------------*/
 
         if(draw)//Draws the image when keys are inputted.
         {
             ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 32, 32, 32);
             al_draw_bitmap(background, 0, 0, NULL);
+            al_draw_bitmap(block, 200, 150, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
-            //al_draw_bitmap_region(player, sourceX, sourceY * al_get_bitmap_height(player) / 4, 32, 32, x, y, NULL);//Draws the bitmap animation on screen.
-            //al_draw_bitmap_region(player2, 0, 0, 32, 32, 200, 200, NULL);//Draws the bitmap on the screen.
-            //al_draw_bitmap(player, x, y + 440, NULL);//Draws the bitmap on screen.
-            //al_draw_rectangle(x, y, x + 10, y + 10, al_map_rgb(44, 117, 255), 1);//Draws rectangle.
             al_flip_display();//Displays the image.
             al_clear_to_color(al_map_rgb(0, 0, 0));//Set background color.
             al_destroy_bitmap(subBitmap);
@@ -316,6 +296,7 @@ int main()
     al_destroy_display(display);//destroy display.
     al_destroy_timer(timer);//destroy timer.
     al_destroy_bitmap(player);//Destroy play bitmap.
+    al_destroy_bitmap(block);//Destroy block bitmap.
     al_destroy_bitmap(background);//Destroy play bitmap.
     al_destroy_sample(soundEffect);//Destroy sound.
     al_destroy_sample(song);//Destroy song.
