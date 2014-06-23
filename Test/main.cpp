@@ -6,6 +6,7 @@
 #include<allegro5/allegro_primitives.h>//to draw images.
 #include<allegro5/allegro_audio.h>//Play audio.
 #include<allegro5/allegro_acodec.h>//Play different file types for audio.
+#include <iostream>
 
 #define ScreenWidth 800//sets screen width variable.
 #define ScreenHeight 600//sets screen height variable.
@@ -26,9 +27,22 @@ int main()
         return -1;
     }
     // &disp_data is struct, gets populated by this func with monitor data such 
-    // height and width. first arg is the index to use to select from a list of
-    // supported monitor resolutions, 0 is the largest max res supported by monitor 
-    al_get_display_mode(0, &disp_data);
+    // height and width. 
+
+    int max_res_index = 0, max_res_width, max_res_height;
+    for (int c = 0; c < al_get_num_display_modes(); c++)
+    {
+        al_get_display_mode(max_res_index, &disp_data);
+        max_res_height = disp_data.height;
+        max_res_width = disp_data.width;
+
+        al_get_display_mode(c, &disp_data);
+        if (disp_data.width >= max_res_width && disp_data.height >=max_res_width)
+        {
+            max_res_index = c;
+        }
+    }
+    al_get_display_mode(max_res_index, &disp_data);
     al_set_new_display_flags(ALLEGRO_FULLSCREEN);//display format.
     // creates the display with the monitors width & height
     display = al_create_display(disp_data.width, disp_data.height);
