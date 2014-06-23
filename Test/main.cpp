@@ -1,13 +1,14 @@
-#include<allegro5/allegro.h>
-#include<allegro5/allegro_native_dialog.h>//Dialog boxes.
-#include<allegro5/allegro_ttf.h>//read font files.
-#include<allegro5/allegro_font.h>//font.
-#include<allegro5/allegro_image.h>//images.
-#include<allegro5/allegro_primitives.h>//to draw images.
-#include<allegro5/allegro_audio.h>//Play audio.
-#include<allegro5/allegro_acodec.h>//Play different file types for audio.
-#include<cmath>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_native_dialog.h>//Dialog boxes.
+#include <allegro5/allegro_ttf.h>//read font files.
+#include <allegro5/allegro_font.h>//font.
+#include <allegro5/allegro_image.h>//images.
+#include <allegro5/allegro_primitives.h>//to draw images.
+#include <allegro5/allegro_audio.h>//Play audio.
+#include <allegro5/allegro_acodec.h>//Play different file types for audio.
+#include <cmath>
 #include <iostream>
+#include "collision.h"
 
 //#define ScreenWidth 800//sets screen width variable.
 //#define ScreenHeight 600//sets screen height variable.
@@ -21,14 +22,6 @@ void CameraUpdate(float *cameraPosition, float x, float y, int width, int height
         cameraPosition[0] = 0;
     if(cameraPosition[1] < 0)
         cameraPosition[1] = 0;
-}
-bool Collision(float x, float y, float ex, float ey, int pradius, int eradius)
-{//Pythagoream theorem: using hypontenuse to find distance between objects.
-    if(sqrt(pow(x - ex, 2) + pow(y - ey, 2)) < pradius + eradius)
-    {
-        return true;//Collision.
-    }
-    return false;//No collision.
 }
 
 int main()
