@@ -14,7 +14,7 @@
 
 int main()
 {
-    const float FPS = 60.0;//Sets fps to 60 frames per second
+    const float FPS = 30.0;//Sets fps to 60 frames per second
     const float frameFPS = 15.0;//Set fps for animation for walking.
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
 
