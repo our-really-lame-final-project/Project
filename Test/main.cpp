@@ -7,6 +7,7 @@
 #include<allegro5/allegro_audio.h>//Play audio.
 #include<allegro5/allegro_acodec.h>//Play different file types for audio.
 #include<cmath>
+#include <iostream>
 
 //#define ScreenWidth 800//sets screen width variable.
 //#define ScreenHeight 600//sets screen height variable.
@@ -41,7 +42,8 @@ int main()
 
     if(!al_init())//if allegro 5 does not initialize show error message.
     {
-        al_show_native_message_box(NULL, NULL, "Error", "Could not initialize Allegro 5", NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        al_show_native_message_box(NULL, NULL, "Error", "Could not initialize Allegro 5", 
+                NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
 
@@ -71,7 +73,8 @@ int main()
 
     if(!display)//if display does not initialize show error message.
     {
-        al_show_native_message_box(NULL, NULL, "Error", "Could not create Allegro 5 display", NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        al_show_native_message_box(NULL, NULL, "Error", 
+                "Could not create Allegro 5 display", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
     bool done = false, draw = true;//Setting loop to false and true.
@@ -81,35 +84,63 @@ int main()
     int sourceX = 32, sourceY = 0;//Standing position.
 
     float cameraPosition[2] = {0, 0};
-    /*------------------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------------*/
     //Gravity code.
     /*float velx, vely; //Changes jump speed with gravity.
     velx = vely = 0;//Set default value .
     bool jump = false;//Sets jump loop to false.
     float jumpSpeed = 15;//Sets players jump speed.
     const float gravity = 1;//Sets realistic gravity settings.*/
-    /*------------------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------*/
 
-    al_init_font_addon();//initialize font addon.
-    al_init_ttf_addon();//initialize ttf files.
-    al_init_primitives_addon();//Initialize primitives to draw.
-    al_install_keyboard();//Installs the keyboard.
+
+    // SOUND SETUP =================================================================== //
+    // =============================================================================== //
     al_install_audio();//Installs the audio.
-    al_init_image_addon();//Initializes image.
     al_init_acodec_addon();//Initializes sound.
     al_reserve_samples(2);//Number of samples playing.
+    ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
+    if (!soundEffect)
+    {
+        std::cout << "could not load sound effect\n";
+    }
+    ALLEGRO_SAMPLE *song = al_load_sample("TestGetLucky8Bit.ogg"); //Load the song file.
+    if (!song)
+    {
+        //al_show_native_message_box(NULL, NULL, "Error", "Could not load song", NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        std::cout << "could not load song\n";
+        //return -1;
+    }
+
+    //Attaches song into sample instance to create it.
+    ALLEGRO_SAMPLE_INSTANCE *songInstance = al_create_sample_instance(song);
+    //Choose play mode for song like looping the song.
+    al_set_sample_instance_playmode(songInstance, ALLEGRO_PLAYMODE_LOOP);
+    //Attach the song to the default mixer.
+    al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
+    al_play_sample_instance(songInstance); //Starts the song.
+
+    // FONT ========================================================================== //
+    // =============================================================================== //
+    al_init_font_addon();//initialize font addon.
+    al_init_ttf_addon();//initialize ttf files.
 
     ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "JAMAL QUEST");//Draws text with given font.
+    //Draws text with given font.
+    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2, 
+            disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "JAMAL QUEST");
 
-    ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
-    ALLEGRO_SAMPLE *song = al_load_sample("GetLucky8Bit.ogg"); //Load the song file.
-    ALLEGRO_SAMPLE_INSTANCE *songInstance = al_create_sample_instance(song);//Attaches song into sample instance to create it.
-    al_set_sample_instance_playmode(songInstance, ALLEGRO_PLAYMODE_LOOP);//Choose play mode for song like looping the song.
-    al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());//Attach the song to the default mixer.
+    // BITMAP & IMAGE SETUP ==================================================== //
+    // =============================================================================== //
 
+    al_init_image_addon();//Initializes image.
+    al_init_primitives_addon();//Initialize primitives to draw.
     ALLEGRO_BITMAP *player = al_load_bitmap("Test.png");//Creates bitmap for player.
     ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
+
+    // KEYBOARD & TIMER SETUP ======================================================== //
+    // =============================================================================== //
+    al_install_keyboard();//Installs the keyboard.
 
     ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
     ALLEGRO_TRANSFORM camera;
@@ -117,13 +148,20 @@ int main()
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);//Set timer to 60 fps.
     ALLEGRO_TIMER *frameTimer = al_create_timer(1.0 / frameFPS);//Set timer to 15 fps.
 
-    ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();//Function to create an event.
-    al_register_event_source(event_queue, al_get_timer_event_source(timer));//Registers timer event.
-    al_register_event_source(event_queue, al_get_timer_event_source(frameTimer));//Register timer event.
-    al_register_event_source(event_queue, al_get_display_event_source(display));//Registers display event.
-    al_register_event_source(event_queue, al_get_keyboard_event_source());//Registers keyboard event.
+    // EVENT QUEUES ================================================================= //
+    // ============================================================================== //
 
-    al_play_sample_instance(songInstance);//Starts the song.
+    //Function to create an event.
+    ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
+    //Registers timer event.
+    al_register_event_source(event_queue, al_get_timer_event_source(timer));
+    //Register timer event.
+    al_register_event_source(event_queue, al_get_timer_event_source(frameTimer));
+    //Registers display event.
+    al_register_event_source(event_queue, al_get_display_event_source(display));
+    //Registers keyboard event.
+    al_register_event_source(event_queue, al_get_keyboard_event_source());
+
     al_flip_display();//shows the font.
     al_rest(4.0);//sets screen timer to 4.0.
 
