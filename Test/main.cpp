@@ -204,7 +204,8 @@ int main()
                 else
                     active = false;
 
-                CameraUpdate(cameraPosition, x, y, 32, 32);
+                CameraUpdate(cameraPosition, disp_data.width, disp_data.height, 
+                        x, y, 32, 32);
 
                 al_identity_transform(&camera);
                 al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
