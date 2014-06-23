@@ -8,14 +8,14 @@
 #include<allegro5/allegro_acodec.h>//Play different file types for audio.
 #include<cmath>
 
-#define ScreenWidth 800//sets screen width variable.
-#define ScreenHeight 600//sets screen height variable.
+//#define ScreenWidth 800//sets screen width variable.
+//#define ScreenHeight 600//sets screen height variable.
 
 //When using pointers(*) you need to make sure to destroy them before you run and build the program.
 void CameraUpdate(float *cameraPosition, float x, float y, int width, int height)
 {
-    cameraPosition[0] = -(ScreenWidth / 2) + (x + width / 2);
-    cameraPosition[1] = -(ScreenHeight / 2) + (y + height / 2);
+    cameraPosition[0] = -(800 / 2) + (x + width / 2);
+    cameraPosition[1] = -(600 / 2) + (y + height / 2);
     if(cameraPosition[0] < 0)
         cameraPosition[0] = 0;
     if(cameraPosition[1] < 0)
@@ -36,15 +36,37 @@ int main()
     const float frameFPS = 15.0;//Set fps for animation for walking.
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
 
+    ALLEGRO_DISPLAY *display = NULL;
+    ALLEGRO_DISPLAY_MODE disp_data;
+
     if(!al_init())//if allegro 5 does not initialize show error message.
     {
         al_show_native_message_box(NULL, NULL, "Error", "Could not initialize Allegro 5", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
 
-    al_set_new_display_flags(ALLEGRO_WINDOWED);//display format.
-    ALLEGRO_DISPLAY *display = al_create_display(ScreenWidth, ScreenHeight);//sets display resolution.
-    al_set_window_position(display, 283, 50);//sets display windows position.
+    // al_get_display 1st arg is a num for an index for a list of screen resolutions
+    // we must loop through all the indices to find the highest screen res cuz
+    // the order seems to different on diff OSes. &disp_data is struct, gets populated by
+    // this func with monitor data such height and width.
+    int max_res_index = 0, max_res_width, max_res_height;
+    for (int c = 0; c < al_get_num_display_modes(); c++)
+    {
+        al_get_display_mode(max_res_index, &disp_data);
+        max_res_height = disp_data.height;
+        max_res_width = disp_data.width;
+
+        al_get_display_mode(c, &disp_data);
+        if (disp_data.width >= max_res_width && disp_data.height >= max_res_height)
+        {
+            max_res_index = c;
+        }
+    }
+    al_get_display_mode(max_res_index, &disp_data);
+    al_set_new_display_flags(ALLEGRO_FULLSCREEN);//display format.
+    // creates the display with the monitors width & height
+    display = al_create_display(disp_data.width, disp_data.height);
+
     al_set_window_title(display, "Gaming Project");//sets a window title.
 
     if(!display)//if display does not initialize show error message.
@@ -78,7 +100,7 @@ int main()
     al_reserve_samples(2);//Number of samples playing.
 
     ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "DOGE STORY");//Draws text with given font.
+    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "DOGE STORY");//Draws text with given font.
 
     ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
     ALLEGRO_SAMPLE *song = al_load_sample("GetLucky8Bit.ogg"); //Load the song file.
@@ -247,7 +269,7 @@ int main()
     }
 
     ALLEGRO_FONT *font1 = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font1, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "THE END OF DOGE");//Draws text with given font.
+    al_draw_text(font1, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "THE END OF DOGE");//Draws text with given font.
     al_flip_display();//shows the font.
     al_rest(1.0);//sets screen timer.
 
