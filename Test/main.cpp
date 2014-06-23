@@ -6,10 +6,6 @@
 #include<allegro5/allegro_primitives.h>//to draw images.
 #include<allegro5/allegro_audio.h>//Play audio.
 #include<allegro5/allegro_acodec.h>//Play different file types for audio.
-#include <iostream>
-
-#define ScreenWidth 800//sets screen width variable.
-#define ScreenHeight 600//sets screen height variable.
 
 //When using pointers(*) you need to make sure to destroy them before you run and build the program.
 
@@ -77,7 +73,7 @@ int main()
     al_reserve_samples(2);//Number of samples playing.
 
     ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "DOGE STORY");//Draws text with given font.
+    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "DOGE STORY");//Draws text with given font.
 
     ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
     ALLEGRO_SAMPLE *song = al_load_sample("GetLucky8Bit.ogg"); //Load the song file.
@@ -193,7 +189,7 @@ int main()
     }
 
     ALLEGRO_FONT *font1 = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font1, al_map_rgb(44, 117, 255), ScreenWidth / 2, ScreenHeight / 2, ALLEGRO_ALIGN_CENTRE, "THE END OF DOGE");//Draws text with given font.
+    al_draw_text(font1, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "THE END OF DOGE");//Draws text with given font.
     al_flip_display();//shows the font.
     al_rest(1.0);//sets screen timer.
 
