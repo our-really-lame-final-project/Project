@@ -187,7 +187,7 @@ int main()
                 al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
                 al_use_transform(&camera);
 
-                if(Collision(x, y, 200, 200, 10, 20))
+                if(Collision(x, y, 200, 200, 10, 10))
                 {//If collision true, run if statement.
                     if(dir == 0)
                         y -= moveSpeed;
