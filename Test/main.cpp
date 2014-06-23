@@ -9,20 +9,12 @@
 #include <cmath>
 #include <iostream>
 #include "collision.h"
+#include "camera.h"
 
 //#define ScreenWidth 800//sets screen width variable.
 //#define ScreenHeight 600//sets screen height variable.
 
 //When using pointers(*) you need to make sure to destroy them before you run and build the program.
-void CameraUpdate(float *cameraPosition, float x, float y, int width, int height)
-{
-    cameraPosition[0] = -(800 / 2) + (x + width / 2);
-    cameraPosition[1] = -(600 / 2) + (y + height / 2);
-    if(cameraPosition[0] < 0)
-        cameraPosition[0] = 0;
-    if(cameraPosition[1] < 0)
-        cameraPosition[1] = 0;
-}
 
 int main()
 {
