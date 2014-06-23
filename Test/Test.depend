@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1403479726 source:c:\codeblocks\cbprojects\project\test\main.cpp
+1403539966 source:c:\codeblocks\cbprojects\project\test\main.cpp
 	<allegro5/allegro.h>
 	<allegro5/allegro_native_dialog.h>
 	<allegro5/allegro_ttf.h>
@@ -8,4 +8,5 @@
 	<allegro5/allegro_primitives.h>
 	<allegro5/allegro_audio.h>
 	<allegro5/allegro_acodec.h>
+	<cmath>
 
