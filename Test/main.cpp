@@ -25,8 +25,8 @@ int main()
 
     // al_get_display 1st arg is a num for an index for a list of screen resolutions
     // we must loop through all the indices to find the highest screen res cuz
-    // the order seems to different on diff OSes. &disp_data is struct, gets populated by 
-    // this func with monitor data such height and width. 
+    // the order seems to different on diff OSes. &disp_data is struct, gets populated by
+    // this func with monitor data such height and width.
     int max_res_index = 0, max_res_width, max_res_height;
     for (int c = 0; c < al_get_num_display_modes(); c++)
     {
@@ -35,7 +35,7 @@ int main()
         max_res_width = disp_data.width;
 
         al_get_display_mode(c, &disp_data);
-        if (disp_data.width >= max_res_width && disp_data.height >=max_res_width)
+        if (disp_data.width >= max_res_width && disp_data.height >= max_res_height)
         {
             max_res_index = c;
         }
