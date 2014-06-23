@@ -50,3 +50,6 @@ Icon
 
 #codeblocks
 *.cbp
+*.o
+*.depend
+*.exe
