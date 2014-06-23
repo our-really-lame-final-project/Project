@@ -241,7 +241,7 @@ int main()
                     if(dir == 0)
                     {
                         y -= moveSpeed;
-                        jump = true;
+                        vely = -jumpSpeed;
                     }
                     else if(dir == 1)
                         x += moveSpeed;
@@ -250,7 +250,6 @@ int main()
                     else if(dir == 3)
                     {
                         y += moveSpeed;
-                        jump = true;
                     }
                 }
 

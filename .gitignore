@@ -53,3 +53,5 @@ Icon
 *.o
 *.depend
 *.exe
+*.exe
+*.o
