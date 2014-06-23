@@ -25,8 +25,12 @@ int main()
         al_show_native_message_box(NULL, NULL, "Error", "Could not initialize Allegro 5", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
+    // &disp_data is struct, gets populated by this func with monitor data such 
+    // height and width. first arg is the index to use to select from a list of
+    // supported monitor resolutions, 0 is the largest max res supported by monitor 
     al_get_display_mode(0, &disp_data);
     al_set_new_display_flags(ALLEGRO_FULLSCREEN);//display format.
+    // creates the display with the monitors width & height
     display = al_create_display(disp_data.width, disp_data.height);
 
     al_set_window_title(display, "Gaming Project");//sets a window title.
