@@ -19,7 +19,6 @@
 #include "splashscreens.h"
 #include "enemies.h"
 
-const int Num_Zombie = 10;
 int main()
 {
     // DISPLAY ==================================================================//
@@ -27,9 +26,6 @@ int main()
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_DISPLAY_MODE disp_data;
 
-    const float FPS = 30.0;//Sets fps to 60 frames per second
-    const float frameFPS = 15.0;//Set fps for animation for walking.
-    enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
 
     if(!al_init())//if allegro 5 does not initialize show error message.
     {
@@ -136,6 +132,10 @@ int main()
     //Registers keyboard event.
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
+    const int Num_Zombie = 10;
+    const float FPS = 30.0;//Sets fps to 60 frames per second
+    const float frameFPS = 15.0;//Set fps for animation for walking.
+    enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
     bool done = false, draw = true;//Setting loop to false and true.
     bool active = false;//Setting animation to false;
     //sets player position and speed.
