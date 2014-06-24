@@ -7,24 +7,15 @@
 #include <allegro5/allegro_audio.h>//Play audio.
 #include <allegro5/allegro_acodec.h>//Play different file types for audio.
 #include <cmath>
-#include<fstream>
-#include<string>
-#include<vector>
-#include<sstream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <sstream>
 #include <iostream>
 #include "collision.h"
 #include "camera.h"
+#include "map.h"
 
-#define BlockSize 64
-
-enum LoadState { TileSet, Map };
-
-int state = NULL;
-
-ALLEGRO_BITMAP *tileSet;
-
-void LoadMap(const char *filename, std::vector< std::vector <int> > &map);
-void DrawMap(std::vector <std::vector <int> > map);
 
 //When using pointers(*) you need to make sure to destroy them before you run and build the program.
 int main()
@@ -279,63 +270,3 @@ int main()
     return 0;
 }
 
-void LoadMap(const char *filename, std::vector< std::vector <int> > &map)
-{
-    std::ifstream openfile(filename);
-    if(openfile.is_open())
-    {
-        std::string line, value;
-        int space;
-
-        while(!openfile.eof())
-        {
-            std::getline(openfile, line);
-
-            if(line.find("[TileSet]") != std::string::npos)
-            {
-                state = TileSet;
-                continue;
-            }
-            else if (line.find("[Map]") != std::string::npos)
-            {
-                state = Map;
-                continue;
-            }
-
-            switch(state)
-            {
-            case TileSet:
-                if(line.length() > 0)
-                    tileSet = al_load_bitmap(line.c_str());
-                break;
-            case Map:
-                std::stringstream str(line);
-                std::vector<int> tempVector;
-
-                while(!str.eof())
-                {
-                    std::getline(str, value, ' ');
-                    if(value.length() > 0)
-                        tempVector.push_back(atoi(value.c_str()));
-                }
-                map.push_back(tempVector);
-                break;
-            }
-        }
-    }
-    else
-    {
-    }
-}
-
-void DrawMap(std::vector <std::vector <int> > map)
-{
-    for(int i = 0; i < map.size(); i++)
-    {
-        for(int j = 0; j < map[i].size(); j++)
-        {
-            al_draw_bitmap_region(tileSet, map[i][j] * BlockSize, 0, BlockSize, 64, j * BlockSize,
-                i * BlockSize, NULL);
-        }
-    }
-}
