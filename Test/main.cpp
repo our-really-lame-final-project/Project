@@ -140,7 +140,7 @@ int main()
     bool active = false;//Setting animation to false;
     //sets player position and speed.
     float x = 10, y = 10, moveSpeed = 5, cameraPosition[2] = {0, 0};
-    int dir = DOWN, int sourceX = 64, sourceY = 0;//Standing position & direction.
+    int dir = DOWN, sourceX = 64, sourceY = 0;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
 	InitZombie(zombies, Num_Zombie, zombiesImage);
@@ -210,8 +210,7 @@ int main()
                 else
                     active = false;
 
-            CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
-                    x, y, 64, 64);
+            CameraUpdate(cameraPosition, disp_data.width, disp_data.height, x, y, 64, 64);
 
                 al_identity_transform(&camera);
                 al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
