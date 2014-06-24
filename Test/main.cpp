@@ -210,9 +210,9 @@ int main()
                 jump = (y + 32 >= 232);//Sets jump border for player.
 
                 if(jump)
-                    y = 232-32;//Places players height into correct position.*/
+                    y = 232 - 32;//Places players height into correct position.*/
 
-                CameraUpdate(cameraPosition, disp_data.width, disp_data.height, 
+                CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
                         x, y, 32, 32);
 
                 al_identity_transform(&camera);
@@ -221,20 +221,35 @@ int main()
 
                 if(Collision(x, y, 200, 150, 32, 32))
                 {//If collision true, run if statement.
-                    if(dir == 0)
+                    //jump = false;
+
+                    if(dir == 0) // 0 refers to up.
                     {
-                        y -= moveSpeed;
+                        //y -= moveSpeed;
+                        jump = true;
+                        y = y;
+
+                    }
+                    else if(dir == 1) // 1 refers to right.
+                    {
+                        //x += moveSpeed;
+                        x = x;
                         jump = true;
                     }
-                    else if(dir == 1)
-                        x += moveSpeed;
-                    else if(dir == 2)
-                        x -= moveSpeed;
-                    else if(dir == 3)
+                    else if(dir == 2) // 2 refers to left.
                     {
-                        y += moveSpeed;
+                        //x -= moveSpeed;
+                        x = x;
                         jump = true;
                     }
+                    else if(dir == 3) // 3 refers to down.
+                    {
+                        //y += moveSpeed;
+                        jump = true;
+                        y = y;
+                    }
+
+                    //jump = true;
                 }
 
             }
