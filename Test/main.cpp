@@ -17,22 +17,14 @@
 #include "map.h"
 #include "Objects.h"
 #include "splashscreens.h"
+#include "enemies.h"
+#include "quadmap.h"
 
-const int Num_Zombie = 10;
-void InitZombie(Zombie zombies[], int size, ALLEGRO_BITMAP *image);
-void DrawZombie(Zombie zombies[], int size);
-void StartZombie(Zombie zombies[], int size);
-void UpdateZombie(Zombie zombies[], int size);
-//When using pointers(*) you need to make sure to destroy them before you run and build the program.
 int main()
 {
-    Zombie zombies[Num_Zombie];
+    // DISPLAY ==================================================================//
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_DISPLAY_MODE disp_data;
-
-    const float FPS = 30.0;//Sets fps to 60 frames per second
-    const float frameFPS = 15.0;//Set fps for animation for walking.
-    enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
 
     if(!al_init())//if allegro 5 does not initialize show error message.
     {
@@ -71,24 +63,21 @@ int main()
                 "Could not create Allegro 5 display", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
-    bool done = false, draw = true;//Setting loop to false and true.
-    bool active = false;//Setting animation to false;
-    float x = 10, y = 10, moveSpeed = 10;//sets player position and speed.
-    int dir = DOWN;//Sets players direction.
-    int sourceX = 64, sourceY = 0;//Standing position.
 
-    float cameraPosition[2] = {0, 0};
+
+    //INSTALL & INITIATION
+    al_install_audio();//Installs the audio.
+    al_init_acodec_addon();//Initializes sound.
+    al_init_font_addon();//initialize font addon.
+    al_init_ttf_addon();//initialize ttf files.
+    al_init_image_addon();//Initializes image.
+    al_init_primitives_addon();//Initialize primitives to draw.
+    al_install_keyboard();//Installs the keyboard.
+
 
     // SOUND SETUP =================================================================== //
     // =============================================================================== //
-    al_install_audio();//Installs the audio.
-    al_init_acodec_addon();//Initializes sound.
-    al_reserve_samples(2);//Number of samples playing.
-    ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
-    if (!soundEffect)
-    {
-        std::cout << "could not load sound effect\n";
-    }
+    al_reserve_samples(1);//Number of samples playing.
     ALLEGRO_SAMPLE *song = al_load_sample("TestGetLucky8Bit.ogg"); //Load the song file.
     if (!song)
     {
@@ -105,252 +94,29 @@ int main()
     al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
     al_play_sample_instance(songInstance); //Starts the song.
 
-    // FONT ========================================================================== //
-    // =============================================================================== //
-    al_init_font_addon();//initialize font addon.
-    al_init_ttf_addon();//initialize ttf files.
-
-    // BITMAP & IMAGE SETUP ==================================================== //
-    // =============================================================================== //
-
-    al_init_image_addon();//Initializes image.
-    al_init_primitives_addon();//Initialize primitives to draw.
-    ALLEGRO_BITMAP *player = al_load_bitmap("Jamal-Sprite.png");//Creates bitmap for player.
-    ALLEGRO_BITMAP *block = al_load_bitmap("block.png");//Creates bitmap for player.
-    ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
-
-    ALLEGRO_BITMAP *npc = al_load_bitmap("RPG/Comp1.png");
-    ALLEGRO_BITMAP *zombiesImage;
-    zombiesImage = al_load_bitmap("Zombie-Sprite.png");
-    // KEYBOARD & TIMER SETUP ======================================================== //
-    // =============================================================================== //
-    al_install_keyboard();//Installs the keyboard.
-
-    ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
-    ALLEGRO_TRANSFORM camera;
-
-    ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);//Set timer to 60 fps.
-    ALLEGRO_TIMER *frameTimer = al_create_timer(1.0 / frameFPS);//Set timer to 15 fps.
-
-    // EVENT QUEUES ================================================================= //
-    // ============================================================================== //
-
-    srand(time(NULL));
-	InitZombie(zombies, Num_Zombie, zombiesImage);
-
-    //Function to create an event.
-    ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
-    //Registers timer event.
-    al_register_event_source(event_queue, al_get_timer_event_source(timer));
-    //Register timer event.
-    al_register_event_source(event_queue, al_get_timer_event_source(frameTimer));
+    /*
+    // SETUP A GLOBAL EVENT QUEUE
+    ALLEGRO_EVENT_QUEUE *global_queue = al_create_event_queue();
     //Registers display event.
     al_register_event_source(event_queue, al_get_display_event_source(display));
-    //Registers keyboard event.
-    al_register_event_source(event_queue, al_get_keyboard_event_source());
 
-    std::vector< std::vector <int> > map;
-
-    LoadMap("Map1.txt", map);
-
-    al_start_timer(timer);//Starts the timer.
-    al_start_timer(frameTimer);
-    //Do not enter any code besides the while loop after the timer in order to prevent any malfunctions with the program.
+        if(events.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        {
+            done = true;//Closes the program when user clicks on the x button.
+        }
+        */
 
     // INTRO SPLASH SCREEN
     intro_splash(disp_data.width, disp_data.height);
 
-    while(!done)//loop until user is done.
-    {
-        ALLEGRO_EVENT events;//Creates the event.
-        al_wait_for_event(event_queue, &events);//Waits until a event occurs.
-        al_get_keyboard_state(&keyState);//Saves current keyboard state.
+    // START THE MAP
+    quad_map(max_res_width, max_res_height);
 
-        if(events.type == ALLEGRO_EVENT_KEY_UP)//Key up is to start event when key released it, key down is for when key is pressed.
-        {
-            switch(events.keyboard.keycode)//Reads the key.
-            {
-            case ALLEGRO_KEY_ESCAPE:
-                done = true;//Ends the program for keyboard.
-            }
-        }
-        else if (events.type == ALLEGRO_EVENT_KEY_DOWN)
-        {
-            if(events.keyboard.keycode == ALLEGRO_KEY_L)
-            {
-                map.clear();
-                LoadMap("Map1.txt", map);
-            }
-        }
-        else if(events.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-        {
-            done = true;//Closes the program when user clicks on the x button.
-        }
-
-        else if(events.type == ALLEGRO_EVENT_TIMER)
-        {//Sets instructions for keys and timer function.
-            StartZombie(zombies, Num_Zombie);
-			UpdateZombie(zombies, Num_Zombie);
-            if(events.timer.source == timer)
-            {
-                active = true;
-                if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
-                {
-                    y += moveSpeed;
-                    dir = DOWN;
-                }
-                else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
-                {
-                    y -= moveSpeed;
-                    dir = UP;
-                }
-                else if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
-                {
-                    x += moveSpeed;
-                    dir = RIGHT;
-                }
-                else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
-                {
-                    x -= moveSpeed;
-                    dir = LEFT;
-                }
-                else
-                    active = false;
-
-            CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
-                    x, y, 64, 64);
-
-                al_identity_transform(&camera);
-                al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
-                al_use_transform(&camera);
-
-                if(Collision(x, y, 200, 150, 32, 32))
-                {
-                    obstruct(x, y, dir, moveSpeed);
-                }
-            }
-            else if (events.timer.source == frameTimer)
-            {
-                if(active)
-                    sourceX += al_get_bitmap_width(player) / 3;
-                else
-                    sourceX = 64;
-
-                if(sourceX >= al_get_bitmap_width(player))
-                    sourceX = 0;
-
-                sourceY = dir;//Direction of player.
-            }
-            draw = true;//If any keys are used, them draw will return true and draw the image.
-        }
-
-        if(draw)//Draws the image when keys are inputted.
-        {
-            ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 64, 64, 64);
-            //al_draw_bitmap(background, 0, 0, NULL);
-            al_clear_to_color(al_map_rgb(255, 255, 255));//Set background color.
-            DrawMap(map);
-            DrawZombie(zombies, Num_Zombie);
-            al_draw_bitmap(npc, 700, 100, NULL);
-            al_draw_bitmap(subBitmap, x, y, NULL);
-            al_flip_display();//Displays the image.
-            al_clear_to_color(al_map_rgb(0, 0, 0));//Set background color.
-            al_destroy_bitmap(subBitmap);
-        }
-    }
-
+    // END GAME SPLASH
     end_game_splash(disp_data.width, disp_data.height);
-
-// DESTORY ALL THE THINGS ================================================================== //
-    al_destroy_bitmap(npc); // destroy npc
-    al_destroy_display(display);//destroy display.
-    al_destroy_timer(timer);//destroy timer.
-    al_destroy_bitmap(player);//Destroy play bitmap.
-    al_destroy_bitmap(zombiesImage);
-    al_destroy_bitmap(block);//Destroy block bitmap.
-    //al_destroy_bitmap(background);//Destroy play bitmap.
-    al_destroy_sample(soundEffect);//Destroy sound.
-    al_destroy_sample(song);//Destroy song.
+    // DESTORY ALL THE THINGS ========================================================= //
     al_destroy_sample_instance(songInstance);//Destroy song instance.
-    al_destroy_event_queue(event_queue);//destroy event_queue
-
+    al_destroy_sample(song);//Destroy song.
+    al_destroy_display(display);//destroy display.
     return 0;
 }
-
-void InitZombie(Zombie zombies[], int size,  ALLEGRO_BITMAP *image)
-{
-	for(int i = 0; i < size; i++)
-	{
-		zombies[i].ID = ENEMY;
-		zombies[i].live = false;
-		zombies[i].speed = 4;
-		zombies[i].boundx = 32;
-		zombies[i].boundy = 32;
-
-        zombies[i].maxFrame = 143;
-		zombies[i].curFrame = 0;
-		zombies[i].frameCount = 0;
-		zombies[i].frameDelay = 2;
-		zombies[i].frameWidth = 64;
-		zombies[i].frameHeight = 64;
-		zombies[i].animationColumns = 3;
-
-       //zombies[i].animationDirection = 1;
-       //zombies[i].animationDirection = -1;
-
-		zombies[i].image = image;
-	}
-}
-void DrawZombie(Zombie zombies[], int size)
-{
-	for(int i = 0; i < size; i++)
-	{
-		if(zombies[i].live)
-		{
-            int fx = (zombies[i].curFrame % zombies[i].animationColumns) * zombies[i].frameWidth;
-			int fy = (zombies[i].curFrame / zombies[i].animationColumns) * zombies[i].frameHeight;
-
-			al_draw_bitmap_region(zombies[i].image, fx, fy, zombies[i].frameWidth,
-				zombies[i].frameHeight, zombies[i].x - zombies[i].frameWidth / 3, zombies[i].y - zombies[i].frameHeight / 4, 0);
-		}
-	}
-}
-void StartZombie(Zombie zombies[], int size)
-{
-	for(int i = 0; i < size; i++)
-	{
-		if(!zombies[i].live)
-		{
-			if(rand() % 500 == 0)
-			{
-				zombies[i].live = true;
-				zombies[i].x = 800;
-				zombies[i].y = 30 + rand() % (400 - 60);
-
-				break;
-			}
-		}
-	}
-}
-void UpdateZombie(Zombie zombies[], int size)
-{
-	for(int i = 0; i < size; i++)
-	{
-		if(zombies[i].live)
-		{
-			if(++zombies[i].frameCount >= zombies[i].frameDelay)
-			{
-				zombies[i].curFrame += zombies[i].animationDirection;
-				if(zombies[i].curFrame >= zombies[i].maxFrame)
-					zombies[i].curFrame = 0;
-				else if( zombies[i].curFrame <= 0)
-					zombies[i].curFrame = zombies[i].maxFrame - 1;
-
-				zombies[i].frameCount = 0;
-			}
-
-			zombies[i].x -= zombies[i].speed;
-		}
-	}
-}
-
