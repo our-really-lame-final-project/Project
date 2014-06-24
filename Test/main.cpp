@@ -68,11 +68,6 @@ int main()
                 "Could not create Allegro 5 display", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return -1;
     }
-    bool done = false, draw = true;//Setting loop to false and true.
-    bool active = false;//Setting animation to false;
-    float x = 10, y = 10, moveSpeed = 5;//sets player position and speed.
-    int dir = DOWN, int sourceX = 64, sourceY = 0;//Standing position & direction.
-    float cameraPosition[2] = {0, 0};
 
 
     //INSTALL & INITIATION
@@ -141,10 +136,16 @@ int main()
     //Registers keyboard event.
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
+    bool done = false, draw = true;//Setting loop to false and true.
+    bool active = false;//Setting animation to false;
+    //sets player position and speed.
+    float x = 10, y = 10, moveSpeed = 5, cameraPosition[2] = {0, 0};
+    int dir = DOWN, int sourceX = 64, sourceY = 0;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
 	InitZombie(zombies, Num_Zombie, zombiesImage);
     LoadMap("Map1.txt", map);
+
 
     al_start_timer(timer);//Starts the timer.
     al_start_timer(frameTimer);
@@ -156,8 +157,9 @@ int main()
         ALLEGRO_EVENT events;//Creates the event.
         al_wait_for_event(event_queue, &events);//Waits until a event occurs.
         al_get_keyboard_state(&keyState);//Saves current keyboard state.
-
-        if(events.type == ALLEGRO_EVENT_KEY_UP)//Key up is to start event when key released it, key down is for when key is pressed.
+        // Key up is to start event when key released it
+        // key down is for when key is pressed.
+        if(events.type == ALLEGRO_EVENT_KEY_UP)
         {
             switch(events.keyboard.keycode)//Reads the key.
             {
