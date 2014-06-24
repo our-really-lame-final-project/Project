@@ -15,11 +15,17 @@
 #include "collision.h"
 #include "camera.h"
 #include "map.h"
+#include "Objects.h"
 
-
+const int Num_Zombie = 10;
+void InitZombie(Zombie zombies[], int size, ALLEGRO_BITMAP *image);
+void DrawZombie(Zombie zombies[], int size);
+void StartZombie(Zombie zombies[], int size);
+void UpdateZombie(Zombie zombies[], int size);
 //When using pointers(*) you need to make sure to destroy them before you run and build the program.
 int main()
 {
+    Zombie zombies[Num_Zombie];
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_DISPLAY_MODE disp_data;
 
@@ -68,7 +74,7 @@ int main()
     bool active = false;//Setting animation to false;
     float x = 10, y = 10, moveSpeed = 5;//sets player position and speed.
     int dir = DOWN;//Sets players direction.
-    int sourceX = 32, sourceY = 0;//Standing position.
+    int sourceX = 64, sourceY = 0;//Standing position.
 
     float cameraPosition[2] = {0, 0};
 
@@ -113,11 +119,13 @@ int main()
 
     al_init_image_addon();//Initializes image.
     al_init_primitives_addon();//Initialize primitives to draw.
-    ALLEGRO_BITMAP *player = al_load_bitmap("Test.png");//Creates bitmap for player.
+    ALLEGRO_BITMAP *player = al_load_bitmap("Jamal-Sprite.png");//Creates bitmap for player.
     //ALLEGRO_BITMAP *block = al_load_bitmap("block.png");//Creates bitmap for player.
     ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
 
     ALLEGRO_BITMAP *npc = al_load_bitmap("PixelArt/Comp1.png");
+    ALLEGRO_BITMAP *zombiesImage;
+    zombiesImage = al_load_bitmap("Zombie-Sprite.png");
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
     al_install_keyboard();//Installs the keyboard.
@@ -131,6 +139,9 @@ int main()
     // EVENT QUEUES ================================================================= //
     // ============================================================================== //
 
+    srand(time(NULL));
+	InitZombie(zombies, Num_Zombie, zombiesImage);
+
     //Function to create an event.
     ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
     //Registers timer event.
@@ -143,7 +154,7 @@ int main()
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
     al_flip_display();//shows the font.
-    al_rest(1.0);//sets screen timer to 4.0.
+    al_rest(4.0);//sets screen timer to 4.0.
 
     std::vector< std::vector <int> > map;
 
@@ -182,6 +193,8 @@ int main()
 
         else if(events.type == ALLEGRO_EVENT_TIMER)
         {//Sets instructions for keys and timer function.
+            StartZombie(zombies, Num_Zombie);
+			UpdateZombie(zombies, Num_Zombie);
             if(events.timer.source == timer)
             {
                 active = true;
@@ -209,7 +222,7 @@ int main()
                 active = false;
 
             CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
-                    x, y, 32, 32);
+                    x, y, 64, 64);
 
             al_identity_transform(&camera);
             al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
@@ -225,7 +238,7 @@ int main()
                 if(active)
                     sourceX += al_get_bitmap_width(player) / 3;
                 else
-                    sourceX = 32;
+                    sourceX = 64;
 
                 if(sourceX >= al_get_bitmap_width(player))
                     sourceX = 0;
@@ -238,8 +251,9 @@ int main()
 
         if(draw)//Draws the image when keys are inputted.
         {
-            ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 32, 32, 32);
+            ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 64, 64, 64);
             al_draw_bitmap(background, 0, 0, NULL);
+            DrawZombie(zombies, Num_Zombie);
             al_draw_bitmap(npc, 700, 100, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             DrawMap(map);
@@ -260,6 +274,7 @@ int main()
     al_destroy_display(display);//destroy display.
     al_destroy_timer(timer);//destroy timer.
     al_destroy_bitmap(player);//Destroy play bitmap.
+    al_destroy_bitmap(zombiesImage);
     //al_destroy_bitmap(block);//Destroy block bitmap.
     al_destroy_bitmap(background);//Destroy play bitmap.
     al_destroy_sample(soundEffect);//Destroy sound.
@@ -268,5 +283,82 @@ int main()
     al_destroy_event_queue(event_queue);//destroy event_queue
 
     return 0;
+}
+
+void InitZombie(Zombie zombies[], int size,  ALLEGRO_BITMAP *image)
+{
+	for(int i = 0; i < size; i++)
+	{
+		zombies[i].ID = ENEMY;
+		zombies[i].live = false;
+		zombies[i].speed = 4;
+		zombies[i].boundx = 32;
+		zombies[i].boundy = 32;
+
+        zombies[i].maxFrame = 143;
+		zombies[i].curFrame = 0;
+		zombies[i].frameCount = 0;
+		zombies[i].frameDelay = 2;
+		zombies[i].frameWidth = 64;
+		zombies[i].frameHeight = 64;
+		zombies[i].animationColumns = 3;
+
+       //zombies[i].animationDirection = 1;
+       //zombies[i].animationDirection = -1;
+
+		zombies[i].image = image;
+	}
+}
+void DrawZombie(Zombie zombies[], int size)
+{
+	for(int i = 0; i < size; i++)
+	{
+		if(zombies[i].live)
+		{
+            int fx = (zombies[i].curFrame % zombies[i].animationColumns) * zombies[i].frameWidth;
+			int fy = (zombies[i].curFrame / zombies[i].animationColumns) * zombies[i].frameHeight;
+
+			al_draw_bitmap_region(zombies[i].image, fx, fy, zombies[i].frameWidth,
+				zombies[i].frameHeight, zombies[i].x - zombies[i].frameWidth / 3, zombies[i].y - zombies[i].frameHeight / 4, 0);
+		}
+	}
+}
+void StartZombie(Zombie zombies[], int size)
+{
+	for(int i = 0; i < size; i++)
+	{
+		if(!zombies[i].live)
+		{
+			if(rand() % 500 == 0)
+			{
+				zombies[i].live = true;
+				zombies[i].x = 800;
+				zombies[i].y = 30 + rand() % (600 - 60);
+
+				break;
+			}
+		}
+	}
+}
+void UpdateZombie(Zombie zombies[], int size)
+{
+	for(int i = 0; i < size; i++)
+	{
+		if(zombies[i].live)
+		{
+			if(++zombies[i].frameCount >= zombies[i].frameDelay)
+			{
+				zombies[i].curFrame += zombies[i].animationDirection;
+				if(zombies[i].curFrame >= zombies[i].maxFrame)
+					zombies[i].curFrame = 0;
+				else if( zombies[i].curFrame <= 0)
+					zombies[i].curFrame = zombies[i].maxFrame - 1;
+
+				zombies[i].frameCount = 0;
+			}
+
+			zombies[i].x -= zombies[i].speed;
+		}
+	}
 }
 
