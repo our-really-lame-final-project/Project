@@ -1,9 +1,8 @@
-bool Collision(float x, float y, float ex, float ey, int width, int height)
-{
-    if(x + width < ex || x > ex + width || y + height < ey || y > ey + height)
+bool Collision(float x, float y, float ex, float ey, int pradius, int eradius)
+{//Pythagoream theorem: using hypontenuse to find distance between objects.
+    if(sqrt(pow(x - ex, 2) + pow(y - ey, 2)) < pradius + eradius)
     {
-        return false;
+        return true;//Collision.
     }
-
-    return true;
+    return false;//No collision.
 }
