@@ -27,3 +27,34 @@
 
 1403634682 c:\codeblocks\cbprojects\project\test\objects.h
 
+1403640199 source:c:\users\kim\documents\github\project\test\main.cpp
+	<allegro5/allegro.h>
+	<allegro5/allegro_native_dialog.h>
+	<allegro5/allegro_ttf.h>
+	<allegro5/allegro_font.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_primitives.h>
+	<allegro5/allegro_audio.h>
+	<allegro5/allegro_acodec.h>
+	<cmath>
+	<fstream>
+	<string>
+	<vector>
+	<sstream>
+	<iostream>
+	"collision.h"
+	"camera.h"
+	"map.h"
+	"Objects.h"
+	"splashscreens.h"
+
+1403640193 c:\users\kim\documents\github\project\test\collision.h
+
+1403640193 c:\users\kim\documents\github\project\test\camera.h
+
+1403640193 c:\users\kim\documents\github\project\test\map.h
+
+1403640199 c:\users\kim\documents\github\project\test\objects.h
+
+1403640193 c:\users\kim\documents\github\project\test\splashscreens.h
+
