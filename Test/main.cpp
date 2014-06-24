@@ -22,6 +22,7 @@
 const int Num_Zombie = 10;
 int main()
 {
+    // DISPLAY ==================================================================//
     Zombie zombies[Num_Zombie];
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_DISPLAY_MODE disp_data;
@@ -70,21 +71,23 @@ int main()
     bool done = false, draw = true;//Setting loop to false and true.
     bool active = false;//Setting animation to false;
     float x = 10, y = 10, moveSpeed = 5;//sets player position and speed.
-    int dir = DOWN;//Sets players direction.
-    int sourceX = 64, sourceY = 0;//Standing position.
-
+    int dir = DOWN, int sourceX = 64, sourceY = 0;//Standing position & direction.
     float cameraPosition[2] = {0, 0};
+
+
+    //INSTALL & INITIATION
+    al_install_audio();//Installs the audio.
+    al_init_acodec_addon();//Initializes sound.
+    al_init_font_addon();//initialize font addon.
+    al_init_ttf_addon();//initialize ttf files.
+    al_init_image_addon();//Initializes image.
+    al_init_primitives_addon();//Initialize primitives to draw.
+    al_install_keyboard();//Installs the keyboard.
+
 
     // SOUND SETUP =================================================================== //
     // =============================================================================== //
-    al_install_audio();//Installs the audio.
-    al_init_acodec_addon();//Initializes sound.
-    al_reserve_samples(2);//Number of samples playing.
-    ALLEGRO_SAMPLE *soundEffect = al_load_sample("soundEffect.wav");//Load sound file.
-    if (!soundEffect)
-    {
-        std::cout << "could not load sound effect\n";
-    }
+    al_reserve_samples(1);//Number of samples playing.
     ALLEGRO_SAMPLE *song = al_load_sample("TestGetLucky8Bit.ogg"); //Load the song file.
     if (!song)
     {
@@ -101,16 +104,12 @@ int main()
     al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
     al_play_sample_instance(songInstance); //Starts the song.
 
-    // FONT ========================================================================== //
-    // =============================================================================== //
-    al_init_font_addon();//initialize font addon.
-    al_init_ttf_addon();//initialize ttf files.
+    // INTRO SPLASH SCREEN
+    intro_splash(disp_data.width, disp_data.height);
 
     // BITMAP & IMAGE SETUP ==================================================== //
     // =============================================================================== //
 
-    al_init_image_addon();//Initializes image.
-    al_init_primitives_addon();//Initialize primitives to draw.
     ALLEGRO_BITMAP *player = al_load_bitmap("Jamal-Sprite.png");//Creates bitmap for player.
     ALLEGRO_BITMAP *block = al_load_bitmap("block.png");//Creates bitmap for player.
     ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
@@ -120,7 +119,6 @@ int main()
     zombiesImage = al_load_bitmap("Zombie-Sprite.png");
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
-    al_install_keyboard();//Installs the keyboard.
 
     ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
     ALLEGRO_TRANSFORM camera;
@@ -152,8 +150,6 @@ int main()
     al_start_timer(frameTimer);
     //Do not enter any code besides the while loop after the timer in order to prevent any malfunctions with the program.
 
-    // INTRO SPLASH SCREEN
-    intro_splash(disp_data.width, disp_data.height);
 
     while(!done)//loop until user is done.
     {
@@ -264,7 +260,6 @@ int main()
     al_destroy_bitmap(zombiesImage);
     al_destroy_bitmap(block);//Destroy block bitmap.
     //al_destroy_bitmap(background);//Destroy play bitmap.
-    al_destroy_sample(soundEffect);//Destroy sound.
     al_destroy_sample(song);//Destroy song.
     al_destroy_sample_instance(songInstance);//Destroy song instance.
     al_destroy_event_queue(event_queue);//destroy event_queue
