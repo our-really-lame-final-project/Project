@@ -73,7 +73,7 @@ int main()
     }
     bool done = false, draw = true;//Setting loop to false and true.
     bool active = false;//Setting animation to false;
-    float x = 10, y = 10, moveSpeed = 5;//sets player position and speed.
+    float x = 10, y = 10, moveSpeed = 10;//sets player position and speed.
     int dir = DOWN;//Sets players direction.
     int sourceX = 64, sourceY = 0;//Standing position.
 
