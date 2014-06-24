@@ -126,6 +126,7 @@ int main()
     //ALLEGRO_BITMAP *block = al_load_bitmap("block.png");//Creates bitmap for player.
     ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
 
+    ALLEGRO_BITMAP *npc = al_load_bitmap("PixelArt/Comp1.png");
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
     al_install_keyboard();//Installs the keyboard.
@@ -213,30 +214,21 @@ int main()
                 x -= moveSpeed;
                 dir = LEFT;
             }
-                else
-                    active = false;
+            else
+                active = false;
 
-                CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
-                        x, y, 32, 32);
+            CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
+                    x, y, 32, 32);
 
-                al_identity_transform(&camera);
-                al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
-                al_use_transform(&camera);
+            al_identity_transform(&camera);
+            al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
+            al_use_transform(&camera);
 
-                if(Collision(x, y, 200, 150, 32, 32))
-                {//If collision true, run if statement.
-                    if(dir == 0)
-                        y -= moveSpeed;
-                    else if(dir == 1)
-                        x += moveSpeed;
-                    else if(dir == 2)
-                        x -= moveSpeed;
-                    else if(dir == 3)
-                        y += moveSpeed;
-                }
-
+            if(Collision(x, y, 200, 150, 32, 32))
+            {
+                obstruct(x, y, dir, moveSpeed);
             }
-
+        }
             else if (events.timer.source == frameTimer)
             {
                 if(active)
@@ -257,7 +249,7 @@ int main()
         {
             ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 32, 32, 32);
             al_draw_bitmap(background, 0, 0, NULL);
-            //al_draw_bitmap(block, 200, 150, NULL);
+            al_draw_bitmap(npc, 700, 100, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             DrawMap(map);
             al_flip_display();//Displays the image.
@@ -271,6 +263,7 @@ int main()
     al_flip_display();//shows the font.
     al_rest(1.0);//sets screen timer.
 
+    al_destroy_bitmap(npc); // destroy npc
     al_destroy_font(font);//destroy font.
     al_destroy_font(font1);//destroy font.
     al_destroy_display(display);//destroy display.
