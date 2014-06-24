@@ -66,15 +66,6 @@ int main()
     int sourceX = 32, sourceY = 0;//Standing position.
 
     float cameraPosition[2] = {0, 0};
-    //Gravity code--------------------------------------------------------------------
-    float velx, vely; //Changes jump speed with gravity.
-    velx = 0;//Set default value .
-    vely = 0;//Set default value .
-    bool jump = false;//Sets jump loop to false.
-    float jumpSpeed = 20;//Sets players jump speed.
-    const float gravity = 1;//Sets realistic gravity settings.
-    //--------------------------------------------------------------------------------
-
 
     // SOUND SETUP =================================================================== //
     // =============================================================================== //
@@ -177,42 +168,30 @@ int main()
             if(events.timer.source == timer)
             {
                 active = true;
-                if(al_key_down(&keyState, ALLEGRO_KEY_UP) && jump)
-                {
-                    vely = -jumpSpeed;
-                    dir = UP;
-                    jump = false;
-                }
-                if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
-                {
-                    velx = moveSpeed;
-                    dir = RIGHT;
-                }
-                else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
-                {
-                    velx = -moveSpeed;
-                    dir = LEFT;
-                }
+            if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
+            {
+                y += moveSpeed;
+                dir = DOWN;
+            }
+            else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
+            {
+                y -= moveSpeed;
+                dir = UP;
+            }
+            else if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
+            {
+                x += moveSpeed;
+                dir = RIGHT;
+            }
+            else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
+            {
+                x -= moveSpeed;
+                dir = LEFT;
+            }
                 else
-                {
-                    velx = 0;
                     active = false;
-                }
 
-                if(!jump)
-                    vely += gravity;
-                else
-                    vely = 0;
-
-                x += velx; //Sets direction speed for gravity.
-                y += vely;//Sets direction speed for gravity.
-
-                jump = (y + 32 >= 232);//Sets jump border for player.
-
-                if(jump)
-                    y = 232-32;//Places players height into correct position.*/
-
-                CameraUpdate(cameraPosition, disp_data.width, disp_data.height, 
+                CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
                         x, y, 32, 32);
 
                 al_identity_transform(&camera);
@@ -222,19 +201,13 @@ int main()
                 if(Collision(x, y, 200, 150, 32, 32))
                 {//If collision true, run if statement.
                     if(dir == 0)
-                    {
                         y -= moveSpeed;
-                        jump = true;
-                    }
                     else if(dir == 1)
                         x += moveSpeed;
                     else if(dir == 2)
                         x -= moveSpeed;
                     else if(dir == 3)
-                    {
                         y += moveSpeed;
-                        jump = true;
-                    }
                 }
 
             }
@@ -253,9 +226,6 @@ int main()
             }
             //draw = true;//If any keys are used, them draw will return true and draw the image.
         }
-            /*------------------------------------------------------------------------------------*/
-
-                /*------------------------------------------------------------------------------------*/
 
         if(draw)//Draws the image when keys are inputted.
         {
