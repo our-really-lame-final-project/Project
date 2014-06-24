@@ -22,7 +22,6 @@
 int main()
 {
     // DISPLAY ==================================================================//
-    Zombie zombies[Num_Zombie];
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_DISPLAY_MODE disp_data;
 
@@ -100,17 +99,18 @@ int main()
 
     // BITMAP & IMAGE SETUP ==================================================== //
     // =============================================================================== //
-
-    ALLEGRO_BITMAP *player = al_load_bitmap("Jamal-Sprite.png");//Creates bitmap for player.
+    //Creates bitmap for player.
+    ALLEGRO_BITMAP *player = al_load_bitmap("Jamal-Sprite.png");
     ALLEGRO_BITMAP *block = al_load_bitmap("block.png");//Creates bitmap for player.
-    ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
-
+    //ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
     ALLEGRO_BITMAP *npc = al_load_bitmap("RPG/Comp1.png");
     ALLEGRO_BITMAP *zombiesImage;
     zombiesImage = al_load_bitmap("Zombie-Sprite.png");
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
 
+    const float FPS = 30.0;//Sets fps to 60 frames per second
+    const float frameFPS = 15.0;//Set fps for animation for walking.
     ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
     ALLEGRO_TRANSFORM camera;
 
@@ -133,8 +133,7 @@ int main()
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
     const int Num_Zombie = 10;
-    const float FPS = 30.0;//Sets fps to 60 frames per second
-    const float frameFPS = 15.0;//Set fps for animation for walking.
+    Zombie zombies[Num_Zombie];
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
     bool done = false, draw = true;//Setting loop to false and true.
     bool active = false;//Setting animation to false;
@@ -251,19 +250,19 @@ int main()
         }
     }
 
-    end_game_splash(disp_data.width, disp_data.height);
 
-// DESTORY ALL THE THINGS ================================================================== //
     al_destroy_bitmap(npc); // destroy npc
-    al_destroy_display(display);//destroy display.
     al_destroy_timer(timer);//destroy timer.
     al_destroy_bitmap(player);//Destroy play bitmap.
     al_destroy_bitmap(zombiesImage);
     al_destroy_bitmap(block);//Destroy block bitmap.
     //al_destroy_bitmap(background);//Destroy play bitmap.
-    al_destroy_sample(song);//Destroy song.
     al_destroy_sample_instance(songInstance);//Destroy song instance.
     al_destroy_event_queue(event_queue);//destroy event_queue
 
+// DESTORY ALL THE THINGS ============================================================ //
+    end_game_splash(disp_data.width, disp_data.height);
+    al_destroy_sample(song);//Destroy song.
+    al_destroy_display(display);//destroy display.
     return 0;
 }
