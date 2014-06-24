@@ -324,7 +324,7 @@ void StartZombie(Zombie zombies[], int size)
 			{
 				zombies[i].live = true;
 				zombies[i].x = 800;
-				zombies[i].y = 30 + rand() % (600 - 60);
+				zombies[i].y = 30 + rand() % (400 - 60);
 
 				break;
 			}
