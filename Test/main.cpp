@@ -247,11 +247,12 @@ int main()
         if(draw)//Draws the image when keys are inputted.
         {
             ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 64, 64, 64);
-            al_draw_bitmap(background, 0, 0, NULL);
+            //al_draw_bitmap(background, 0, 0, NULL);
+            al_clear_to_color(al_map_rgb(255, 255, 255));//Set background color.
+            DrawMap(map);
             DrawZombie(zombies, Num_Zombie);
             al_draw_bitmap(npc, 700, 100, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
-            DrawMap(map);
             al_flip_display();//Displays the image.
             al_clear_to_color(al_map_rgb(0, 0, 0));//Set background color.
             al_destroy_bitmap(subBitmap);
@@ -267,7 +268,7 @@ int main()
     al_destroy_bitmap(player);//Destroy play bitmap.
     al_destroy_bitmap(zombiesImage);
     al_destroy_bitmap(block);//Destroy block bitmap.
-    al_destroy_bitmap(background);//Destroy play bitmap.
+    //al_destroy_bitmap(background);//Destroy play bitmap.
     al_destroy_sample(soundEffect);//Destroy sound.
     al_destroy_sample(song);//Destroy song.
     al_destroy_sample_instance(songInstance);//Destroy song instance.
