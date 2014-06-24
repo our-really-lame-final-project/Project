@@ -16,7 +16,7 @@
 #include "camera.h"
 #include "map.h"
 #include "Objects.h"
-
+#include "splashscreens.h"
 const int Num_Zombie = 10;
 void InitZombie(Zombie zombies[], int size, ALLEGRO_BITMAP *image);
 void DrawZombie(Zombie zombies[], int size);
@@ -109,11 +109,6 @@ int main()
     al_init_font_addon();//initialize font addon.
     al_init_ttf_addon();//initialize ttf files.
 
-    ALLEGRO_FONT *font = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    //Draws text with given font.
-    al_draw_text(font, al_map_rgb(44, 117, 255), disp_data.width / 2,
-            disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "JAMAL QUEST");
-
     // BITMAP & IMAGE SETUP ==================================================== //
     // =============================================================================== //
 
@@ -153,9 +148,6 @@ int main()
     //Registers keyboard event.
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
-    al_flip_display();//shows the font.
-    al_rest(4.0);//sets screen timer to 4.0.
-
     std::vector< std::vector <int> > map;
 
     LoadMap("Map1.txt", map);
@@ -163,6 +155,9 @@ int main()
     al_start_timer(timer);//Starts the timer.
     al_start_timer(frameTimer);
     //Do not enter any code besides the while loop after the timer in order to prevent any malfunctions with the program.
+
+    // INTRO SPLASH SCREEN
+    intro_splash(disp_data.width, disp_data.height);
 
     while(!done)//loop until user is done.
     {
@@ -263,14 +258,10 @@ int main()
         }
     }
 
-    ALLEGRO_FONT *font1 = al_load_font("orbitron-black.ttf", 36, NULL);//Font input.
-    al_draw_text(font1, al_map_rgb(44, 117, 255), disp_data.width / 2, disp_data.height / 2, ALLEGRO_ALIGN_CENTRE, "GAME OVER");//Draws text with given font.
-    al_flip_display();//shows the font.
-    al_rest(1.0);//sets screen timer.
+    end_game_splash(disp_data.width, disp_data.height);
 
+// DESTORY ALL THE THINGS ================================================================== //
     al_destroy_bitmap(npc); // destroy npc
-    al_destroy_font(font);//destroy font.
-    al_destroy_font(font1);//destroy font.
     al_destroy_display(display);//destroy display.
     al_destroy_timer(timer);//destroy timer.
     al_destroy_bitmap(player);//Destroy play bitmap.
