@@ -15,7 +15,7 @@
 #include "collision.h"
 #include "camera.h"
 
-#define BlockSize 32
+#define BlockSize 64
 
 enum LoadState { TileSet, Map };
 
@@ -175,7 +175,14 @@ int main()
                 done = true;//Ends the program for keyboard.
             }
         }
-
+        else if (events.type == ALLEGRO_EVENT_KEY_DOWN)
+        {
+            if(events.keyboard.keycode == ALLEGRO_KEY_L)
+            {
+                map.clear();
+                LoadMap("Map1.txt", map);
+            }
+        }
         else if(events.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
             done = true;//Closes the program when user clicks on the x button.
@@ -242,6 +249,7 @@ int main()
 
                 sourceY = dir;//Direction of player.
             }
+
             draw = true;//If any keys are used, them draw will return true and draw the image.
         }
 
@@ -333,7 +341,7 @@ void DrawMap(std::vector <std::vector <int> > map)
     {
         for(int j = 0; j < map[i].size(); j++)
         {
-            al_draw_bitmap_region(tileSet, map[i][j] * BlockSize, 0, BlockSize, 32, j * BlockSize,
+            al_draw_bitmap_region(tileSet, map[i][j] * BlockSize, 0, BlockSize, 64, j * BlockSize,
                 i * BlockSize, NULL);
         }
     }
