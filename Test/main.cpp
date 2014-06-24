@@ -182,41 +182,41 @@ int main()
             if(events.timer.source == timer)
             {
                 active = true;
-            if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
-            {
-                y += moveSpeed;
-                dir = DOWN;
-            }
-            else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
-            {
-                y -= moveSpeed;
-                dir = UP;
-            }
-            else if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
-            {
-                x += moveSpeed;
-                dir = RIGHT;
-            }
-            else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
-            {
-                x -= moveSpeed;
-                dir = LEFT;
-            }
-            else
-                active = false;
+                if(al_key_down(&keyState, ALLEGRO_KEY_DOWN))
+                {
+                    y += moveSpeed;
+                    dir = DOWN;
+                }
+                else if(al_key_down(&keyState, ALLEGRO_KEY_UP))
+                {
+                    y -= moveSpeed;
+                    dir = UP;
+                }
+                else if(al_key_down(&keyState, ALLEGRO_KEY_RIGHT))
+                {
+                    x += moveSpeed;
+                    dir = RIGHT;
+                }
+                else if(al_key_down(&keyState, ALLEGRO_KEY_LEFT))
+                {
+                    x -= moveSpeed;
+                    dir = LEFT;
+                }
+                else
+                    active = false;
 
-            CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
+                CameraUpdate(cameraPosition, disp_data.width, disp_data.height,
                     x, y, 32, 32);
 
-            al_identity_transform(&camera);
-            al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
-            al_use_transform(&camera);
+                al_identity_transform(&camera);
+                al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
+                al_use_transform(&camera);
 
-            if(Collision(x, y, 200, 150, 32, 32))
-            {
-                obstruct(x, y, dir, moveSpeed);
+                if(Collision(x, y, 200, 150, 32, 32))
+                {
+                    obstruct(x, y, dir, moveSpeed);
+                }
             }
-        }
             else if (events.timer.source == frameTimer)
             {
                 if(active)
@@ -229,7 +229,6 @@ int main()
 
                 sourceY = dir;//Direction of player.
             }
-
             draw = true;//If any keys are used, them draw will return true and draw the image.
         }
 
