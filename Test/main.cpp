@@ -73,6 +73,7 @@ int main()
     al_init_image_addon();//Initializes image.
     al_init_primitives_addon();//Initialize primitives to draw.
     al_install_keyboard();//Installs the keyboard.
+    al_install_mouse();
 
 
     // SOUND SETUP =================================================================== //
@@ -82,7 +83,6 @@ int main()
     if (!song)
     {
         //al_show_native_message_box(NULL, NULL, "Error", "Could not load song", NULL, ALLEGRO_MESSAGEBOX_ERROR);
-        std::cout << "could not load song\n";
         //return -1;
     }
 
@@ -94,14 +94,39 @@ int main()
     al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
     al_play_sample_instance(songInstance); //Starts the song.
 
-    // INTRO SPLASH SCREEN
+
+    // TIMER
+    ALLEGRO_TIMER *globaltimer = NULL;
+
+    //SETUP GLOBAL EVENT QUEUE
+    ALLEGRO_EVENT_QUEUE *global_queue = NULL;
+    global_queue = al_create_event_queue();
+    al_register_event_source(global_queue, al_get_display_event_source(display));
+    al_register_event_source(global_queue, al_get_mouse_event_source());
+
+
+    //intro splash
     intro_splash(disp_data.width, disp_data.height);
 
-    // START THE MAP
-    quad_map(max_res_width, max_res_height);
+    while(1)
+    {
+        ALLEGRO_EVENT event;
+        al_wait_for_event(global_queue, &event);
+
+        if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+        {
+            std::cout << "click ";
+            quad_map(disp_data.width, disp_data.height);
+            break;
+        }  
+    }
+
+
+    al_destroy_event_queue(global_queue);
 
     // END GAME SPLASH
     end_game_splash(disp_data.width, disp_data.height);
+
     // DESTORY ALL THE THINGS ========================================================= //
     al_destroy_sample_instance(songInstance);//Destroy song instance.
     al_destroy_sample(song);//Destroy song.
