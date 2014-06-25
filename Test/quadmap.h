@@ -39,7 +39,7 @@ void quad_map(int screenx, int screeny)
     bool done = false, draw = true;//Setting loop to false and true.
     bool active = false;//Setting animation to false;
     //sets player position and speed.
-    float x = 100, y = 100, moveSpeed = 10, cameraPosition[2] = {0, 0};
+    float x = 300, y = 300, moveSpeed = 10, cameraPosition[2] = {0, 0};
     int dir = DOWN, sourceX = 64, sourceY = 0;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
@@ -120,8 +120,8 @@ void quad_map(int screenx, int screeny)
                 {
                     for(int j = 0; j < map[i].size(); j++)
                     {
-                        if (map[i][j] == 9 || map[1][j] == 1 || 
-                                map[1][j] == 10 || map[1][j] == 4)
+                        if (map[i][j] == 9 || map[i][j] == 1 || 
+                                map[i][j] == 10 || map[i][j] == 4)
                         {
                             if (Collision(x, y, j * 64, i * 64, 64, 64))
                             {
