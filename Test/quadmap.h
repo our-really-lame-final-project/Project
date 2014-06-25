@@ -1,10 +1,9 @@
 void quad_map(int screenx, int screeny)
 {
-    // BITMAP & IMAGE SETUP ==================================================== //
-    // =============================================================================== //
-    //Creates bitmap for player.
+    // Load bitmap images for use in the program.
     ALLEGRO_BITMAP *player = al_load_bitmap("Jamal-Sprite.png");
     ALLEGRO_BITMAP *zombiesImage = al_load_bitmap("RPG/Zombie-Sprite.png");
+
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
 
@@ -41,7 +40,7 @@ void quad_map(int screenx, int screeny)
     int dir = DOWN, sourceX = 64, sourceY = 0;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
-	InitZombie(zombies, Num_Zombie, zombiesImage);
+	//InitZombie(zombies, Num_Zombie, zombiesImage);
     LoadMap("Map1.txt", map);
 
 
@@ -75,8 +74,8 @@ void quad_map(int screenx, int screeny)
 
         else if(events.type == ALLEGRO_EVENT_TIMER)
         {//Sets instructions for keys and timer function.
-            StartZombie(zombies, Num_Zombie);
-			UpdateZombie(zombies, Num_Zombie);
+            //StartZombie(zombies, Num_Zombie);
+			//UpdateZombie(zombies, Num_Zombie);
             if(events.timer.source == timer)
             {
                 active = true;
@@ -121,10 +120,11 @@ void quad_map(int screenx, int screeny)
                                 obstruct(x, y, dir, moveSpeed);
                             }
 
-                            if (Collision(x, y, zx, zy, 64, 64))
+                            if (Collision(zx, zy,j * 64, i * 64, 64, 64))
                             {
-                                obstruct(x, y, dir, moveSpeed);
+                                obstruct(zx, zy, dir, moveSpeed);
                             }
+
                         }
                     }
                 }
@@ -152,7 +152,6 @@ void quad_map(int screenx, int screeny)
             DrawMap(map);
             //DrawZombie(zombies, Num_Zombie);
             BrainsZombie(x, y, zx, zy, dir, moveSpeed);
-            std::cout << zx << " " << zy;
             al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx, zy, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             al_flip_display();//Displays the image.

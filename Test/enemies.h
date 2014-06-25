@@ -85,13 +85,34 @@ void UpdateZombie(Zombie zombies[], int size)
 
 void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpeed)
 {
-<<<<<<< HEAD
-    if (!Collision(x, y, zx, zy, 64, 64))
+    if (!Collision(x, y, zx, zy, 64, 64)) // An if statement to check for zombie collision.
     {
-        zx += x;
-        zy += y;
+        // An if statement to check for if the x coordinate for the zombie is less than the player's position.
+        // If so, then move towards the player one frame.
+        if (zx < x)
+        {
+            zx += 1;
+        }
+
+        // An if statement to check for if the x coordinate for the zombie is greater than the player's position.
+        // If so, then move towards the player one frame.
+        if (zx > x)
+        {
+            zx -= 1;
+        }
+
+        // An if statement to check for if the y coordinate for the zombie is less than the player's position.
+        // If so, then move towards the player one frame.
+        if (zy < y)
+        {
+           zy += 1;
+        }
+
+        // An if statement to check for if the y coordinate for the zombie is greater than the player's position.
+        // If so, then move towards the player one frame.
+        if (zy > y)
+        {
+            zy -= 1;
+        }
     }
-=======
-//    if collision(x, y, 64, 64)
->>>>>>> origin/dev-new
 }
