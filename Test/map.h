@@ -1,6 +1,8 @@
 #define BlockSize 64
+
 enum LoadState { TileSet, Map };
 ALLEGRO_BITMAP *tileSet;
+
 void LoadMap(const char *filename, std::vector< std::vector <int> > &map)
 {
     int state = NULL;
@@ -57,7 +59,7 @@ void DrawMap(std::vector <std::vector <int> > map)
     {
         for(int j = 0; j < map[i].size(); j++)
         {
-            al_draw_bitmap_region(tileSet, map[i][j] * BlockSize, 0, BlockSize, 
+            al_draw_bitmap_region(tileSet, map[i][j] * BlockSize, 0, BlockSize,
                     64, j * BlockSize, i * BlockSize, NULL);
             if (map[1][j] == 9)
             {

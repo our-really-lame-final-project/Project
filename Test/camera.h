@@ -9,28 +9,19 @@ void CameraUpdate(float *cameraPosition, int screenw, int screenh, float x, floa
     {
         cameraPosition[0] = 0;
     }
-<<<<<<< HEAD
-    if(cameraPosition[0] > (3700 - screenw))
+
+    if(cameraPosition[0] > (58*64) - screenw)
     {
-        cameraPosition[0] = 3700 - screenw;
-=======
-    if(cameraPosition[0] > (58*64)-screenw)
-    {
-        cameraPosition[0] = (58*64)-screenw;
->>>>>>> origin/dev-new
+        cameraPosition[0] = (58*64)- screenw;
     }
-    if(cameraPosition[1] < 0 )
+
+    if (cameraPosition[1] < 0)
     {
         cameraPosition[1] = 0;
     }
-<<<<<<< HEAD
-    if(cameraPosition[1] > 2230 - screenh)
+
+    if(cameraPosition[1] > (35*64) - screenh)
     {
-        cameraPosition[1] = 2230 - screenh;
-=======
-    if(cameraPosition[1] > (35*64)-screenh)
-    {
-        cameraPosition[1] = (35*64)-screenh;
->>>>>>> origin/dev-new
+        cameraPosition[1] = (35*64) - screenh;
     }
 }

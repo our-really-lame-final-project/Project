@@ -1,3 +1,4 @@
+
 void InitZombie(Zombie zombies[], int size,  ALLEGRO_BITMAP *image)
 {
 	for(int i = 0; i < size; i++)
@@ -82,7 +83,11 @@ void UpdateZombie(Zombie zombies[], int size)
 	}
 }
 
-void BrainsZombie()
+void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpeed)
 {
-    if collision(x, y, 64, 64)
+    if (!Collision(x, y, zx, zy, 64, 64))
+    {
+        zx += x;
+        zy += y;
+    }
 }

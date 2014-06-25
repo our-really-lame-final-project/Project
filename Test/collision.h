@@ -12,7 +12,7 @@ float obstruct(float& x, float& y, int dir, float moveSpeed)
     // from the top
     if(dir == 0)
         y -= moveSpeed;
-    // if comming from the right
+    // if coming from the right
     else if(dir == 1)
         x += moveSpeed;
     // if coming from the left

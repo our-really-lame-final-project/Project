@@ -30,6 +30,7 @@ void quad_map(int screenx, int screeny)
     //Registers keyboard event.
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 
+    float zx = 832, zy = 128;
     const int Num_Zombie = 10;
     Zombie zombies[Num_Zombie];
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
@@ -119,6 +120,11 @@ void quad_map(int screenx, int screeny)
                             {
                                 obstruct(x, y, dir, moveSpeed);
                             }
+
+                            if (Collision(x, y, zx, zy, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
                         }
                     }
                 }
@@ -145,7 +151,9 @@ void quad_map(int screenx, int screeny)
             al_clear_to_color(al_map_rgb(255, 255, 255));//Set background color.
             DrawMap(map);
             //DrawZombie(zombies, Num_Zombie);
-            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, 832, 128, NULL);
+            BrainsZombie(x, y, zx, zy, dir, moveSpeed);
+            std::cout << zx << " " << zy;
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx, zy, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             al_flip_display();//Displays the image.
             al_clear_to_color(al_map_rgb(0, 0, 0));//Set background color.
