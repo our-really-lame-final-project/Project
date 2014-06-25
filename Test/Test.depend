@@ -30,7 +30,7 @@
 
 1403639917 c:\codeblocks\cbprojects\project\test\splashscreens.h
 
-1403640199 source:c:\users\kim\documents\github\project\test\main.cpp
+1403660232 source:c:\users\kim\documents\github\project\test\main.cpp
 	<allegro5/allegro.h>
 	<allegro5/allegro_native_dialog.h>
 	<allegro5/allegro_ttf.h>
@@ -50,6 +50,8 @@
 	"map.h"
 	"Objects.h"
 	"splashscreens.h"
+	"enemies.h"
+	"quadmap.h"
 
 1403640193 c:\users\kim\documents\github\project\test\collision.h
 
@@ -60,4 +62,8 @@
 1403640199 c:\users\kim\documents\github\project\test\objects.h
 
 1403640193 c:\users\kim\documents\github\project\test\splashscreens.h
+
+1403660232 c:\users\kim\documents\github\project\test\enemies.h
+
+1403660232 c:\users\kim\documents\github\project\test\quadmap.h
 
