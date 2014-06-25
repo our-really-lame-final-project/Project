@@ -94,18 +94,6 @@ int main()
     al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
     al_play_sample_instance(songInstance); //Starts the song.
 
-    /*
-    // SETUP A GLOBAL EVENT QUEUE
-    ALLEGRO_EVENT_QUEUE *global_queue = al_create_event_queue();
-    //Registers display event.
-    al_register_event_source(event_queue, al_get_display_event_source(display));
-
-        if(events.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-        {
-            done = true;//Closes the program when user clicks on the x button.
-        }
-        */
-
     // INTRO SPLASH SCREEN
     intro_splash(disp_data.width, disp_data.height);
 

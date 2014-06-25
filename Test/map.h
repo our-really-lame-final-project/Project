@@ -57,8 +57,11 @@ void DrawMap(std::vector <std::vector <int> > map)
     {
         for(int j = 0; j < map[i].size(); j++)
         {
-            al_draw_bitmap_region(tileSet, map[i][j] * BlockSize, 0, BlockSize, 64, j * BlockSize,
-                i * BlockSize, NULL);
+            al_draw_bitmap_region(tileSet, map[i][j] * BlockSize, 0, BlockSize, 
+                    64, j * BlockSize, i * BlockSize, NULL);
+            if (map[1][j] == 9)
+            {
+            }
         }
     }
 }

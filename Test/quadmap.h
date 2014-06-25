@@ -12,7 +12,7 @@ void quad_map(int screenx, int screeny)
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
 
-    const float FPS = 30.0;//Sets fps to 60 frames per second
+    const float FPS = 60.0;//Sets fps to 60 frames per second
     const float frameFPS = 15.0;//Set fps for animation for walking.
     ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
     ALLEGRO_TRANSFORM camera;
@@ -39,7 +39,7 @@ void quad_map(int screenx, int screeny)
     bool done = false, draw = true;//Setting loop to false and true.
     bool active = false;//Setting animation to false;
     //sets player position and speed.
-    float x = 10, y = 10, moveSpeed = 5, cameraPosition[2] = {0, 0};
+    float x = 100, y = 100, moveSpeed = 10, cameraPosition[2] = {0, 0};
     int dir = DOWN, sourceX = 64, sourceY = 0;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
@@ -105,7 +105,7 @@ void quad_map(int screenx, int screeny)
                 else
                     active = false;
 
-            CameraUpdate(cameraPosition, screenx, screeny, x, y, 64, 64);
+                CameraUpdate(cameraPosition, screenx, screeny, x, y, 64, 64);
 
                 al_identity_transform(&camera);
                 al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
@@ -114,6 +114,20 @@ void quad_map(int screenx, int screeny)
                 if(Collision(x, y, 200, 150, 32, 32))
                 {
                     obstruct(x, y, dir, moveSpeed);
+                }
+
+                for(int i = 0; i < map.size(); i++)
+                {
+                    for(int j = 0; j < map[i].size(); j++)
+                    {
+                        if (map[i][j] == 9 || map[1][j] == 1 || map[1][j] == 10)
+                        {
+                            if (Collision(x, y, j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+                        }
+                    }
                 }
             }
             else if (events.timer.source == frameTimer)
@@ -128,7 +142,8 @@ void quad_map(int screenx, int screeny)
 
                 sourceY = dir;//Direction of player.
             }
-            draw = true;//If any keys are used, them draw will return true and draw the image.
+            //If any keys are used, them draw will return true and draw the image.
+            draw = true;
         }
 
         if(draw)//Draws the image when keys are inputted.
