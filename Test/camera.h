@@ -9,16 +9,16 @@ void CameraUpdate(float *cameraPosition, int screenw, int screenh, float x, floa
     {
         cameraPosition[0] = 0;
     }
-    if(cameraPosition[0] > 3712)
+    if(cameraPosition[0] > (3712-screenw))
     {
-        cameraPosition[0] = 3712;
+        cameraPosition[0] = 3712-screenw;
     }
     if(cameraPosition[1] < 0 )
     {
         cameraPosition[1] = 0;
     }
-    if(cameraPosition[1] > 2340)
+    if(cameraPosition[1] > 2267-screenh)
     {
-        cameraPosition[1] = 2340;
+        cameraPosition[1] = 2267-screenh;
     }
 }

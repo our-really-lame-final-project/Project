@@ -12,8 +12,8 @@ void quad_map(int screenx, int screeny)
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
 
-    const float FPS = 30.0;//Sets fps to 60 frames per second
-    const float frameFPS = 15.0;//Set fps for animation for walking.
+    const float FPS = 60.0;//Sets fps to 60 frames per second
+    const float frameFPS = 20.0;//Set fps for animation for walking.
     ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
     ALLEGRO_TRANSFORM camera;
 
@@ -36,10 +36,10 @@ void quad_map(int screenx, int screeny)
     const int Num_Zombie = 10;
     Zombie zombies[Num_Zombie];
     enum Direction { DOWN, LEFT, RIGHT, UP};//Declaring key constants.
-    bool done = false, draw = true;//Setting loop to false and true.
-    bool active = false;//Setting animation to false;
+    //Setting animation to false Setting loop to false and true.
+    bool done = false, draw = true, active = false;
     //sets player position and speed.
-    float x = 300, y = 300, moveSpeed = 50, cameraPosition[2] = {0, 0};
+    float x = 300, y = 300, moveSpeed = 30, cameraPosition[2] = {0, 0};
     int dir = DOWN, sourceX = 64, sourceY = 0;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
