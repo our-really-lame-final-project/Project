@@ -16,6 +16,7 @@ $RECYCLE.BIN/
 *.exe
 
 # codeblocks stuffs
+*.depend
 
 # =========================
 # Operating System Files
@@ -45,3 +46,4 @@ Icon
 
 #codeblocks
 *.exe
+Test/Test.depend

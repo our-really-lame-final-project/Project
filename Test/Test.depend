@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1403652782 source:c:\codeblocks\cbprojects\project\test\main.cpp
+1403657810 source:c:\codeblocks\cbprojects\project\test\main.cpp
 	<allegro5/allegro.h>
 	<allegro5/allegro_native_dialog.h>
 	<allegro5/allegro_ttf.h>
@@ -19,6 +19,8 @@
 	"map.h"
 	"Objects.h"
 	"splashscreens.h"
+	"enemies.h"
+	"quadmap.h"
 
 1403634171 c:\codeblocks\cbprojects\project\test\collision.h
 
@@ -60,4 +62,8 @@
 1403640199 c:\users\kim\documents\github\project\test\objects.h
 
 1403640193 c:\users\kim\documents\github\project\test\splashscreens.h
+
+1403657730 c:\codeblocks\cbprojects\project\test\enemies.h
+
+1403660386 c:\codeblocks\cbprojects\project\test\quadmap.h
 
