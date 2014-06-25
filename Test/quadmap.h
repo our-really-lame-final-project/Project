@@ -81,6 +81,7 @@ void quad_map(int screenx, int screeny)
     // A while loop, so that the game runs until the user quits via ESC.
     while(!done)//loop until user is done.
     {
+<<<<<<< HEAD
 
 // EVENT INPUTS.
 /* ---------------------------------------------------------------------------------------------------------------------- */
@@ -109,18 +110,37 @@ void quad_map(int screenx, int screeny)
 
         // An else if statement for map reinitialization.
         else if (events.type == ALLEGRO_EVENT_KEY_DOWN)
+=======
+        ALLEGRO_EVENT events;//Creates the event.
+        al_wait_for_event(event_queue, &events);//Waits until a event occurs.
+        al_get_keyboard_state(&keyState);//Saves current keyboard state.
+        // Key up is to start event when key released it
+        // key down is for when key is pressed.
+        if (events.type == ALLEGRO_EVENT_KEY_DOWN)
+>>>>>>> origin/dev-new
         {
             if(events.keyboard.keycode == ALLEGRO_KEY_L)
             {
                 map.clear();
                 LoadMap("Map1.txt", map);
             }
+            if(events.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+            {
+                done = true;//Ends the program for keyboard.
+            }
         }
 
+<<<<<<< HEAD
         // An else if for keystroke reads.
         else if(events.type == ALLEGRO_EVENT_TIMER)
         {
             //Sets instructions for keys and timer function.
+=======
+        if(events.type == ALLEGRO_EVENT_TIMER)
+        {//Sets instructions for keys and timer function.
+            //StartZombie(zombies, Num_Zombie);
+			//UpdateZombie(zombies, Num_Zombie);
+>>>>>>> origin/dev-new
             if(events.timer.source == timer)
             {
                 active = true;
