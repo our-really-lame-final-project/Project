@@ -4,16 +4,13 @@ void quad_map(int screenx, int screeny)
     // =============================================================================== //
     //Creates bitmap for player.
     ALLEGRO_BITMAP *player = al_load_bitmap("Jamal-Sprite.png");
-    ALLEGRO_BITMAP *block = al_load_bitmap("block.png");//Creates bitmap for player.
-    //ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
-    ALLEGRO_BITMAP *npc = al_load_bitmap("RPG/Comp1.png");
-    ALLEGRO_BITMAP *zombiesImage;
-    zombiesImage = al_load_bitmap("RPG/Zombie-Sprite.png");
+    ALLEGRO_BITMAP *zombiesImage = al_load_bitmap("RPG/Zombie-Sprite.png");
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
 
-    const float FPS = 60.0;//Sets fps to 60 frames per second
-    const float frameFPS = 20.0;//Set fps for animation for walking.
+    const float FPS = 40.0;//Sets fps to 60 frames per second
+    const float frameFPS = 10.0;//Set fps for animation for walking.
+
     ALLEGRO_KEYBOARD_STATE keyState;//Tells the program what key was pressed.
     ALLEGRO_TRANSFORM camera;
 
@@ -39,7 +36,7 @@ void quad_map(int screenx, int screeny)
     //Setting animation to false Setting loop to false and true.
     bool done = false, draw = true, active = false;
     //sets player position and speed.
-    float x = 300, y = 300, moveSpeed = 30, cameraPosition[2] = {0, 0};
+    float x = 300, y = 300, moveSpeed = 10, cameraPosition[2] = {0, 0};
     int dir = DOWN, sourceX = 64, sourceY = 0;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
@@ -111,11 +108,6 @@ void quad_map(int screenx, int screeny)
                 al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
                 al_use_transform(&camera);
 
-                if(Collision(x, y, 200, 150, 32, 32))
-                {
-                    obstruct(x, y, dir, moveSpeed);
-                }
-
                 for(int i = 0; i < map.size(); i++)
                 {
                     for(int j = 0; j < map[i].size(); j++)
@@ -150,24 +142,17 @@ void quad_map(int screenx, int screeny)
         if(draw)//Draws the image when keys are inputted.
         {
             ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 64, 64, 64);
-            //al_draw_bitmap(background, 0, 0, NULL);
             al_clear_to_color(al_map_rgb(255, 255, 255));//Set background color.
             DrawMap(map);
             DrawZombie(zombies, Num_Zombie);
-            al_draw_bitmap(npc, 700, 100, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             al_flip_display();//Displays the image.
             al_clear_to_color(al_map_rgb(0, 0, 0));//Set background color.
             al_destroy_bitmap(subBitmap);
         }
     }
-
-
-    al_destroy_bitmap(npc); // destroy npc
     al_destroy_timer(timer);//destroy timer.
     al_destroy_bitmap(player);//Destroy play bitmap.
     al_destroy_bitmap(zombiesImage);
-    al_destroy_bitmap(block);//Destroy block bitmap.
-    //al_destroy_bitmap(background);//Destroy play bitmap.
     al_destroy_event_queue(event_queue);//destroy event_queue
 }
