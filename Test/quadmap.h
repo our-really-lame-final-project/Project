@@ -108,9 +108,9 @@ void quad_map(int screenx, int screeny)
                 al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
                 al_use_transform(&camera);
 
-                for(int i = 0; i < map.size(); i++)
+                for(unsigned int i = 0; i < map.size(); i++)
                 {
-                    for(int j = 0; j < map[i].size(); j++)
+                    for(unsigned int j = 0; j < map[i].size(); j++)
                     {
                         if (map[i][j] == 9 || map[i][j] == 1 ||
                                 map[i][j] == 10 || map[i][j] == 4)
@@ -144,7 +144,8 @@ void quad_map(int screenx, int screeny)
             ALLEGRO_BITMAP *subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 64, 64, 64);
             al_clear_to_color(al_map_rgb(255, 255, 255));//Set background color.
             DrawMap(map);
-            DrawZombie(zombies, Num_Zombie);
+            //DrawZombie(zombies, Num_Zombie);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, 832, 128, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             al_flip_display();//Displays the image.
             al_clear_to_color(al_map_rgb(0, 0, 0));//Set background color.
