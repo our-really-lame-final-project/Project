@@ -22,23 +22,27 @@ void InitZombie(Zombie zombies[], int size,  ALLEGRO_BITMAP *image)
 		zombies[i].image = image;
 	}
 }
+
+/*
 void DrawZombie(Zombie zombies[], int size)
 {
 	for(int i = 0; i < size; i++)
 	{
 		if(zombies[i].live)
 		{
-            int fx = (zombies[i].curFrame % zombies[i].animationColumns) * 
+            int fx = (zombies[i].curFrame % zombies[i].animationColumns) *
                 zombies[i].frameWidth;
-			int fy = (zombies[i].curFrame / zombies[i].animationColumns) * 
+			int fy = (zombies[i].curFrame / zombies[i].animationColumns) *
                 zombies[i].frameHeight;
 
 			al_draw_bitmap_region(zombies[i].image, fx, fy, zombies[i].frameWidth,
-				zombies[i].frameHeight, zombies[i].x - zombies[i].frameWidth / 3, 
+				zombies[i].frameHeight, zombies[i].x - zombies[i].frameWidth / 3,
                 zombies[i].y - zombies[i].frameHeight / 4, 0);
 		}
 	}
 }
+*/
+
 void StartZombie(Zombie zombies[], int size)
 {
 	for(int i = 0; i < size; i++)
@@ -78,3 +82,7 @@ void UpdateZombie(Zombie zombies[], int size)
 	}
 }
 
+void BrainsZombie()
+{
+    if collision(x, y, 64, 64)
+}
