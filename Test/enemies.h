@@ -83,7 +83,7 @@ void UpdateZombie(Zombie zombies[], int size)
 	}
 }
 
-void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpeed)
+void BrainsZombie(float x, float y, float& zx, float& zy, int& dir, float moveSpeed)
 {
     if (!Collision(x, y, zx, zy, 64, 64)) // An if statement to check for zombie collision.
     {
@@ -91,6 +91,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpe
         // If so, then move towards the player one frame.
         if (zx < x)
         {
+            dir = 2;
             zx += 1;
         }
 
@@ -98,6 +99,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpe
         // If so, then move towards the player one frame.
         if (zx > x)
         {
+            dir = 1;
             zx -= 1;
         }
 
@@ -105,6 +107,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpe
         // If so, then move towards the player one frame.
         if (zy < y)
         {
+            dir = 0;
            zy += 1;
         }
 
@@ -112,6 +115,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpe
         // If so, then move towards the player one frame.
         if (zy > y)
         {
+            dir = 3;
             zy -= 1;
         }
     }

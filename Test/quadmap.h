@@ -37,7 +37,7 @@ void quad_map(int screenx, int screeny)
     bool done = false, draw = true, active = false;
     //sets player position and speed.
     float x = 300, y = 300, moveSpeed = 10, cameraPosition[2] = {0, 0};
-    int dir = DOWN, sourceX = 64, sourceY = 0;//Standing position & direction.
+    int dir = DOWN, sourceX = 64, sourceY = 0, zdir = DOWN;//Standing position & direction.
     std::vector< std::vector <int> > map;
     srand(time(NULL));
 	//InitZombie(zombies, Num_Zombie, zombiesImage);
@@ -104,6 +104,7 @@ void quad_map(int screenx, int screeny)
                 al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
                 al_use_transform(&camera);
 
+                BrainsZombie(x, y, zx, zy, zdir, moveSpeed);
                 for(unsigned int i = 0; i < map.size(); i++)
                 {
                     for(unsigned int j = 0; j < map[i].size(); j++)
@@ -118,7 +119,7 @@ void quad_map(int screenx, int screeny)
 
                             if (Collision(zx, zy,j * 64, i * 64, 64, 64))
                             {
-                                obstruct(zx, zy, dir, moveSpeed);
+                                obstruct(zx, zy, zdir, moveSpeed);
                             }
 
                         }
@@ -147,7 +148,6 @@ void quad_map(int screenx, int screeny)
             al_clear_to_color(al_map_rgb(255, 255, 255));//Set background color.
             DrawMap(map);
             //DrawZombie(zombies, Num_Zombie);
-            BrainsZombie(x, y, zx, zy, dir, moveSpeed);
             al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx, zy, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             al_flip_display();//Displays the image.
