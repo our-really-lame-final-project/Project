@@ -55,24 +55,20 @@ void quad_map(int screenx, int screeny)
         al_get_keyboard_state(&keyState);//Saves current keyboard state.
         // Key up is to start event when key released it
         // key down is for when key is pressed.
-        if(events.type == ALLEGRO_EVENT_KEY_UP)
-        {
-            switch(events.keyboard.keycode)//Reads the key.
-            {
-            case ALLEGRO_KEY_ESCAPE:
-                done = true;//Ends the program for keyboard.
-            }
-        }
-        else if (events.type == ALLEGRO_EVENT_KEY_DOWN)
+        if (events.type == ALLEGRO_EVENT_KEY_DOWN)
         {
             if(events.keyboard.keycode == ALLEGRO_KEY_L)
             {
                 map.clear();
                 LoadMap("Map1.txt", map);
             }
+            if(events.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+            {
+                done = true;//Ends the program for keyboard.
+            }
         }
 
-        else if(events.type == ALLEGRO_EVENT_TIMER)
+        if(events.type == ALLEGRO_EVENT_TIMER)
         {//Sets instructions for keys and timer function.
             StartZombie(zombies, Num_Zombie);
 			UpdateZombie(zombies, Num_Zombie);
