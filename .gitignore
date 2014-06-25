@@ -18,6 +18,8 @@ $RECYCLE.BIN/
 
 # codeblocks stuffs
 *.depend
+*.cbp
+*.layout
 
 # =========================
 # Operating System Files
@@ -47,4 +49,4 @@ Icon
 
 #codeblocks
 *.exe
-Test/Test.depend
+*.depend
