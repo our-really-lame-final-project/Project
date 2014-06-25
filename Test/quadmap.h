@@ -8,7 +8,7 @@ void quad_map(int screenx, int screeny)
     //ALLEGRO_BITMAP *background = al_load_bitmap("background.png");//Creates an object.
     ALLEGRO_BITMAP *npc = al_load_bitmap("RPG/Comp1.png");
     ALLEGRO_BITMAP *zombiesImage;
-    zombiesImage = al_load_bitmap("Zombie-Sprite.png");
+    zombiesImage = al_load_bitmap("RPG/Zombie-Sprite.png");
     // KEYBOARD & TIMER SETUP ======================================================== //
     // =============================================================================== //
 
