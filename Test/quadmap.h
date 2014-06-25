@@ -120,7 +120,8 @@ void quad_map(int screenx, int screeny)
                 {
                     for(int j = 0; j < map[i].size(); j++)
                     {
-                        if (map[i][j] == 9 || map[1][j] == 1 || map[1][j] == 10)
+                        if (map[i][j] == 9 || map[1][j] == 1 || 
+                                map[1][j] == 10 || map[1][j] == 4)
                         {
                             if (Collision(x, y, j * 64, i * 64, 64, 64))
                             {
