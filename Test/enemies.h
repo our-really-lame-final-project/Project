@@ -85,9 +85,13 @@ void UpdateZombie(Zombie zombies[], int size)
 
 void BrainsZombie(float x, float y, float& zx, float& zy, int dir, float moveSpeed)
 {
+<<<<<<< HEAD
     if (!Collision(x, y, zx, zy, 64, 64))
     {
         zx += x;
         zy += y;
     }
+=======
+//    if collision(x, y, 64, 64)
+>>>>>>> origin/dev-new
 }
