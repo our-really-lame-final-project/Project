@@ -1,3 +1,65 @@
+/* Alexander Woo, Kevin Ortiz, Michael Ackerman.
+ * Jamal Quest
+ * CS002 - Final Project Design.
+ * Last Modified: June 25th, 2014.
+ *
+ * DESIGN:
+ *______________________________________________________________________
+ *
+ * INPUT:
+ * 1. The user should use permitted keys to move their characters around to dodge stuff.
+ *    Only a couple of keys will be valid. Up, left, right, and down arrows will be for movement.
+ *    Escape key will permit the user to exit the game.
+ *    Also, another button will be used to enter the in start screen.
+ *    ADDED BIT: A key for in-game map editing for later use.
+ *
+ * 2. No real validation needed besides the keys used for movement and etcetera.
+ *    Any invalid key should be automatically ignored.
+ *    Escape, arrow direction buttons, and 2 other buttons for use only.
+ *
+ * 3. Pseudocode:
+ *    All this Allegro stuff about key inputs and stuff.
+ *    Specifics come later. Set constants for the movement option though.
+ *    Bunch of function calls to Allegro classes for this stuff though.
+ *    Stuff like sound, sprite reading, and other game stuff should be called.
+ *
+ *______________________________________________________________________
+ *
+ * PROCESSING:
+ * 1. The game should process the user’s inputs to either move their character sprite or whatever other option.
+ *    From that, the game should spawn mobs to go after the player.
+ *    Preferably, the player would be programmed to have a weapon of some sort.
+ *    But that isn’t a priority until we understand more Allegro.
+ *    The players and the mobs should recognize boundaries of walls and objects, and be repelled from them.
+ *    Also, the mobs should instantly end the game the moment they touch the player.
+ *
+ * 2. Multiple functions and headers and classes will be called for use.
+ *    The Allegro classes the most glaringly obvious.
+ *    The functions/header that should be made will reduce the amount of clutter stuck in the main file.
+ *
+ * 3. Psuedocode:
+ * functions for moving the character thanks to player input.
+ * functions to make mobs and make them move towards the player.
+ * functions for making the player and the mobs recognize out of bound areas and walls/objects.
+ * function for centering the camera around the player at all times. Also recognize game out of bound regions and centering appropriately.
+ * functions for drawing the in-game map.
+ * functions for redrawing the map and character sprites appropriately.
+ *
+ * OUTPUT:
+ * 1.  No output, besides a game over screen if the player fails the game.
+ *     But visual output from the game will be recognized.
+ *     Quite a number of changes occur due to user interaction.
+ *
+ * 2. No need for output units of measure.
+ *    Nothing is returned besides game visual feedback to the player.
+ *
+ *3. Pseudocode:
+ * Those functions mentioned in the processing pseudocode is the same for output.
+ * It should redraw any changes, as it should be all looped until the player loses or manually exits the program.
+ *
+ * END OF DESIGN.
+ */
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_native_dialog.h>//Dialog boxes.
 #include <allegro5/allegro_ttf.h>//read font files.
