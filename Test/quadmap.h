@@ -216,6 +216,46 @@ void quad_map(int screenx, int screeny)
                                 obstruct(x, y, dir, moveSpeed);
                             }
 
+                            if (Collision(zx, zy, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
+                            if (Collision(zx1, zy1, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
+                            if (Collision(zx2, zy2, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
+                            if (Collision(zx3, zy3, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
+                            if (Collision(zx4, zy4, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
+                            if (Collision(zx5, zy5, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
+                            if (Collision(zx6, zy6, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
+                            if (Collision(zx7, zy7, x, y, 64, 64))
+                            {
+                                obstruct(x, y, dir, moveSpeed);
+                            }
+
                             if (Collision(zx, zy,j * 64, i * 64, 64, 64))
                             {
                                 obstruct(zx, zy, zdir, moveSpeed);
