@@ -1,4 +1,3 @@
-
 void InitZombie(Zombie zombies[], int size,  ALLEGRO_BITMAP *image)
 {
 	for(int i = 0; i < size; i++)
@@ -42,7 +41,6 @@ void DrawZombie(Zombie zombies[], int size)
 		}
 	}
 }
-*/
 
 void StartZombie(Zombie zombies[], int size)
 {
@@ -82,10 +80,15 @@ void UpdateZombie(Zombie zombies[], int size)
 		}
 	}
 }
+*/
+
+// FUNCTION FOR ZOMBIE MOVEMENT.
+/* ---------------------------------------------------------------------------------------------------------------------- */
 
 void BrainsZombie(float x, float y, float& zx, float& zy, int& dir, float moveSpeed)
 {
-    if (!Collision(x, y, zx, zy, 64, 64)) // An if statement to check for zombie collision.
+    // An if statement to check for zombie collision.
+    if (!Collision(x, y, zx, zy, 64, 64))
     {
         // An if statement to check for if the x coordinate for the zombie is less than the player's position.
         // If so, then move towards the player one frame.
@@ -119,4 +122,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int& dir, float moveSp
             zy -= 1;
         }
     }
+
+    // Return null, end of function.
+    return;
 }
