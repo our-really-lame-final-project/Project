@@ -1,27 +1,39 @@
 #define BlockSize 64
 
+using namespace std;
+
 enum LoadState { TileSet, Map };
 ALLEGRO_BITMAP *tileSet;
 
-void LoadMap(const char *filename, std::vector< std::vector <int> > &map)
+// MAP LOAD FROM FILE.
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+void LoadMap(const char *filename, vector< vector <int> > &map)
 {
+    // Set state to NULL status.
     int state = NULL;
-    std::ifstream openfile(filename);
+
+    // Set openfile to object for use in ifstream.
+    ifstream openfile(filename);
+
+    // If statement for if a file is open.
     if(openfile.is_open())
     {
-        std::string line, value;
+        string line, value;
         int space;
 
+        // While loop to grab the lines from the text file.
         while(!openfile.eof())
         {
-            std::getline(openfile, line);
+            getline(openfile, line);
 
-            if(line.find("[TileSet]") != std::string::npos)
+            // If, else, and switch statements to grab tilesets for the map image.
+            if(line.find("[TileSet]") != string::npos)
             {
                 state = TileSet;
                 continue;
             }
-            else if (line.find("[Map]") != std::string::npos)
+            else if (line.find("[Map]") != string::npos)
             {
                 state = Map;
                 continue;
@@ -29,32 +41,40 @@ void LoadMap(const char *filename, std::vector< std::vector <int> > &map)
 
             switch(state)
             {
-            case TileSet:
-                if(line.length() > 0)
-                    tileSet = al_load_bitmap(line.c_str());
-                break;
-            case Map:
-                std::stringstream str(line);
-                std::vector<int> tempVector;
+                case TileSet:
+                    if(line.length() > 0)
+                        tileSet = al_load_bitmap(line.c_str());
+                    break;
+                case Map:
+                    stringstream str(line);
+                    vector<int> tempVector;
 
-                while(!str.eof())
-                {
-                    std::getline(str, value, ' ');
-                    if(value.length() > 0)
-                        tempVector.push_back(atoi(value.c_str()));
-                }
-                map.push_back(tempVector);
-                break;
+                    while(!str.eof())
+                    {
+                        getline(str, value, ' ');
+                        if(value.length() > 0)
+                            tempVector.push_back(atoi(value.c_str()));
+                    }
+                    map.push_back(tempVector);
+                    break;
             }
         }
     }
+
+    // Else statement.
     else
     {
+        // Do nothing.
+        ;
     }
 }
 
-void DrawMap(std::vector <std::vector <int> > map)
+// DRAW MAP FUNCTION.
+/* ---------------------------------------------------------------------------------------------------------------------- */
+
+void DrawMap(vector <vector <int> > map)
 {
+    // Nested for loops to draw out the map appropriately.
     for(int i = 0; i < map.size(); i++)
     {
         for(int j = 0; j < map[i].size(); j++)
@@ -63,6 +83,8 @@ void DrawMap(std::vector <std::vector <int> > map)
                     64, j * BlockSize, i * BlockSize, NULL);
             if (map[1][j] == 9)
             {
+                // Do nothing.
+                ;
             }
         }
     }
