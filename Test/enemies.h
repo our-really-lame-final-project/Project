@@ -95,7 +95,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int& dir, float moveSp
         if (zx < x)
         {
             dir = 2;
-            zx += moveSpeed / 1.50;
+            zx += moveSpeed / 4;
         }
 
         // An if statement to check for if the x coordinate for the zombie is greater than the player's position.
@@ -103,7 +103,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int& dir, float moveSp
         if (zx > x)
         {
             dir = 1;
-            zx -= moveSpeed / 1.50;
+            zx -= moveSpeed / 4;
         }
 
         // An if statement to check for if the y coordinate for the zombie is less than the player's position.
@@ -111,7 +111,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int& dir, float moveSp
         if (zy < y)
         {
             dir = 0;
-           zy += moveSpeed / 1.50;
+           zy += moveSpeed / 4;
         }
 
         // An if statement to check for if the y coordinate for the zombie is greater than the player's position.
@@ -119,7 +119,7 @@ void BrainsZombie(float x, float y, float& zx, float& zy, int& dir, float moveSp
         if (zy > y)
         {
             dir = 3;
-            zy -= moveSpeed / 1.50;
+            zy -= moveSpeed / 4;
         }
     }
 
