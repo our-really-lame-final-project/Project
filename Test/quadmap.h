@@ -59,7 +59,15 @@ void quad_map(int screenx, int screeny)
 /* ---------------------------------------------------------------------------------------------------------------------- */
 
     // Declare one zombies position.
-    float zx = 832, zy = 128;
+    float zx = 832, zy = 128,
+          zx1 = 64 * 36, zy1 = 64 * 2,
+          zx2 = 64 * 2, zy2 = 64 * 23,
+          zx3 = 64 * 14, zy3 = 64 * 33,
+          zx4 = 64 * 6, zy4 = 64 * 30,
+          zx5 = 64 * 24, zy5 = 64 * 30,
+          zx6 = 64 * 48, zy6 = 64 * 30,
+          zx7 = 64 * 54, zy7 = 64 * 10;
+
 
     // Declare the player's starting positions.
     float x = 300,
@@ -184,6 +192,13 @@ void quad_map(int screenx, int screeny)
                 al_use_transform(&camera);
 
                 BrainsZombie(x, y, zx, zy, zdir, moveSpeed);
+                BrainsZombie(x, y, zx1, zy1, zdir, moveSpeed);
+                BrainsZombie(x, y, zx2, zy2, zdir, moveSpeed);
+                BrainsZombie(x, y, zx3, zy3, zdir, moveSpeed);
+                BrainsZombie(x, y, zx4, zy4, zdir, moveSpeed);
+                BrainsZombie(x, y, zx5, zy5, zdir, moveSpeed);
+                BrainsZombie(x, y, zx6, zy6, zdir, moveSpeed);
+                BrainsZombie(x, y, zx7, zy7, zdir, moveSpeed);
 // COLLISION LOOP FOR PLAYER AND ZOMBIE.
 /* ---------------------------------------------------------------------------------------------------------------------- */
 
@@ -206,6 +221,40 @@ void quad_map(int screenx, int screeny)
                                 obstruct(zx, zy, zdir, moveSpeed);
                             }
 
+                            if (Collision(zx1, zy1,j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(zx1, zy1, zdir, moveSpeed);
+                            }
+
+                            if (Collision(zx2, zy2,j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(zx2, zy2, zdir, moveSpeed);
+                            }
+
+                            if (Collision(zx3, zy3,j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(zx3, zy3, zdir, moveSpeed);
+                            }
+
+                            if (Collision(zx4, zy4,j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(zx4, zy4, zdir, moveSpeed);
+                            }
+
+                            if (Collision(zx5, zy5,j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(zx5, zy5, zdir, moveSpeed);
+                            }
+
+                            if (Collision(zx6, zy6,j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(zx6, zy6, zdir, moveSpeed);
+                            }
+
+                            if (Collision(zx7, zy7,j * 64, i * 64, 64, 64))
+                            {
+                                obstruct(zx7, zy7, zdir, moveSpeed);
+                            }
                         }
                     }
                 }
@@ -253,6 +302,13 @@ void quad_map(int screenx, int screeny)
             al_clear_to_color(al_map_rgb(255, 255, 255));//Set background color.
             DrawMap(map);
             al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx, zy, NULL);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx1, zy1, NULL);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx2, zy2, NULL);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx3, zy3, NULL);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx4, zy4, NULL);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx5, zy5, NULL);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx6, zy6, NULL);
+            al_draw_bitmap_region(zombiesImage, 0, 0, 64, 64, zx7, zy7, NULL);
             al_draw_bitmap(subBitmap, x, y, NULL);
             al_flip_display();//Displays the image.
             al_clear_to_color(al_map_rgb(0, 0, 0));//Set background color.
