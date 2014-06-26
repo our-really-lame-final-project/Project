@@ -115,10 +115,9 @@ int main()
 
         if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
         {
-            std::cout << "click ";
             quad_map(disp_data.width, disp_data.height);
             break;
-        }  
+        }
     }
 
 
